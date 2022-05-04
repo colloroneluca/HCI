@@ -9,7 +9,7 @@ import mediapipe as mp
 import time
 import numpy as np
 from os.path import exists
-#from FaceRecognitionApp import FaceRecognizer
+from RecognitionClass import FaceRecognition
 import cv2
 import numpy as np
 from PIL import Image
@@ -59,11 +59,11 @@ class hand_gesture_browser():
         return plocX, plocY
 
     def get_movement(self, lmList, fingers, acquired):
-        if fingers == [1,1,1,1,1]:
+        if sum(fingers) >= 4:
             self.container.insert(0,lmList[8][1])
         else:
             self.container.insert(0, None)
-        if len(self.container)>5:
+        if len(self.container)>10:
             self.container = self.container[:-1]
         print("container", self.container)
         difference = 0
@@ -76,7 +76,7 @@ class hand_gesture_browser():
         if difference != None:
             if difference > 60:
                 print("\nRIGHT\n")
-                return("right2left")
+                return ("right2left")
             if difference < -60:
                 print("\nLeft\n")
                 return ("left2right")
@@ -124,6 +124,8 @@ class hand_gesture_browser():
                               (255, 0, 255), 2)
 
                 movement = self.get_movement(lmList,fingers,acquired)
+
+
                 if time.time()-time_since_tab_switch > 3 and recovered==False:
                     recovered = True
                 if movement != None and recovered:
@@ -144,8 +146,34 @@ class hand_gesture_browser():
             cv2.imshow("Image", img)
             cv2.waitKey(1)
 
+def start_recognition():
+    app = FaceRecognition()
+    while True:
+
+        # 1. Get all the available classes
+        classes, images = app.getClassesImages()
+
+        # 2. Apply the recognition
+        user = app.recognition(classes)
+
+        # app.saveEncodings(app.findEncodings(images))
+        # break
+
+        # 3. Check if the user is registered
+        if user == "Unknown":
+            response = input("Seems it is the first time you use this application, do you want to register? (y/n)")
+            if response == "y":
+                app.addNewUser()
+            break
+        else:
+            print("welcome back ", str(user), "!!!")
+            break
+
 
 if __name__=='__main__':
+    use_face_recognition = False
+    if use_face_recognition:
+        start_recognition()
     cap = cv2.VideoCapture(2)
     detector = htm.handDetector(maxHands=1)
     v = hand_gesture_browser(cap, detector)
