@@ -9,7 +9,7 @@ import mediapipe as mp
 import time
 import numpy as np
 from os.path import exists
-from RecognitionClass import FaceRecognition
+
 import cv2
 import numpy as np
 from PIL import Image
@@ -37,8 +37,7 @@ class hand_gesture_browser():
         if fingers[0] == 1 and fingers[1] == 1:
             # 9. Find distance between fingers
             length, img, lineInfo = detector.findDistance(8, 4, img)
-            print(length)
-            print("length", length)
+
             if length < 30:
                 cv2.circle(img, (lineInfo[4], lineInfo[5]),
                            15, (0, 255, 0), cv2.FILLED)
@@ -65,7 +64,7 @@ class hand_gesture_browser():
             self.container.insert(0, None)
         if len(self.container)>10:
             self.container = self.container[:-1]
-        print("container", self.container)
+        #print("container", self.container)
         difference = 0
         if len(self.container)>4:
             if None not in self.container:
@@ -74,6 +73,7 @@ class hand_gesture_browser():
             else:
                 difference = None
         if difference != None:
+            print("Difference =>", difference)
             if difference > 60:
                 print("\nRIGHT\n")
                 return ("right2left")
@@ -96,6 +96,7 @@ class hand_gesture_browser():
         wScr, hScr = autopy.screen.size()
         acquired = False
         recovered = True
+        time_to_wait_after_tab_switch = 1.5
         time_since_tab_switch = time.time()
         b = Selenium_Browser()
         b.launch_browser()
@@ -126,11 +127,12 @@ class hand_gesture_browser():
                 movement = self.get_movement(lmList,fingers,acquired)
 
 
-                if time.time()-time_since_tab_switch > 3 and recovered==False:
+                if time.time()-time_since_tab_switch > time_to_wait_after_tab_switch:
                     recovered = True
                 if movement != None and recovered:
                     b.switch_to_tab(movement)
                     time_since_tab_switch = time.time()
+                    recovered = False
                 plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
                                                        smoothening, plocX, plocY, x1,y1)
                 self.get_click(fingers, img)
@@ -173,6 +175,7 @@ def start_recognition():
 if __name__=='__main__':
     use_face_recognition = False
     if use_face_recognition:
+        from RecognitionClass import FaceRecognition
         start_recognition()
     cap = cv2.VideoCapture(2)
     detector = htm.handDetector(maxHands=1)
