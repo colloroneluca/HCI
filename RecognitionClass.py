@@ -136,7 +136,7 @@ class FaceRecognition:
             elif k % 256 == 32:
                 # SPACE pressed
                 count += 1
-                img_name = 'ImagesAttendance/User/' + str(last_id + 1) + '.' + str(count) + ".png",
+                img_name = 'ImagesAttendance/User/' + str(last_id + 1) + '.' + str(count) + ".png"
                 cv2.imwrite(img_name, pic)
                 images.append(pic)
                 print("{} written!".format(img_name))
@@ -157,29 +157,6 @@ class FaceRecognition:
         with open(self.usersPath, 'r+') as f:
             users = json.load(f)
         return users
-
-app = FaceRecognition()
-
-while True:
-
-    # 1. Get all the available classes
-    classes, images = app.getClassesImages()
-
-    # 2. Apply the recognition
-    user = app.recognition(classes)
-
-    #app.saveEncodings(app.findEncodings(images))
-    #break
-
-    # 3. Check if the user is registered
-    if user == "Unknown":
-        response = input("Seems it is the first time you use this application, do you want to register? (y/n)")
-        if response == "y":
-            app.addNewUser()
-        break
-    else:
-        print("welcome back ", str(user), "!!!")
-        break
 
 
 

@@ -57,7 +57,7 @@ class handDetector():
 
             if draw:
                 cv2.rectangle(img, (xmin - 20, ymin - 20), (xmax + 20, ymax + 20),
-                              (0, 255, 0), 2)
+                              (0, 100, 0), 2)
 
         return self.lmList, bbox
 

@@ -8,8 +8,10 @@ import json
 import mediapipe as mp
 import time
 import numpy as np
+import pyautogui
 from os.path import exists
-
+from RecognitionClass import FaceRecognition
+from keyboard import keyboard
 import cv2
 import numpy as np
 from PIL import Image
@@ -23,38 +25,53 @@ import time
 import autopy
 from selenium_browser import Selenium_Browser
 
-
-def launch_face_recognizer():
-    pass
-
 class hand_gesture_browser():
     def __init__(self, cap, detector):
        self.container = [0,0,0,0,0]
+       self.last_click_time = 0
        self.main(cap,detector)
 
 
-    def get_click(self, fingers, img):
-        if fingers[0] == 1 and fingers[1] == 1:
-            # 9. Find distance between fingers
-            length, img, lineInfo = detector.findDistance(8, 4, img)
+    def get_hold_click(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x1, y1):
 
-            if length < 30:
-                cv2.circle(img, (lineInfo[4], lineInfo[5]),
-                           15, (0, 255, 0), cv2.FILLED)
-                autopy.mouse.click()
+        # 5. Convert Coordinates
+        x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
+        y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
+        # 6. Smoothen Values
+        clocX = plocX + (x3 - plocX) / smoothening
+        clocY = plocY + (y3 - plocY) / smoothening
+        pyautogui.mouseDown()
+        # 7. Move Mouse
+        autopy.mouse.move(wScr - clocX, clocY)
+        cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
+        plocX, plocY = clocX, clocY
+
+
+        return plocX, plocY
+
+    def get_click(self, fingers, img):
+
+        # 9. Find distance between fingers
+        length, img, lineInfo = detector.findDistance(8, 4, img)
+        print("Distance between click fingers:", length)
+        if length < 50 and time.time() - self.last_click_time > 1.5:
+            self.last_click_time = time.time()
+            cv2.circle(img, (lineInfo[4], lineInfo[5]),
+                       15, (0, 255, 0), cv2.FILLED)
+            autopy.mouse.click()
 
     def get_mouse_movement(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x1,y1):
-        if fingers[1] == 1 and fingers[2] == 0:
-            # 5. Convert Coordinates
-            x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
-            y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
-            # 6. Smoothen Values
-            clocX = plocX + (x3 - plocX) / smoothening
-            clocY = plocY + (y3 - plocY) / smoothening
-            # 7. Move Mouse
-            autopy.mouse.move(wScr - clocX, clocY)
-            cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
-            plocX, plocY = clocX, clocY
+
+        # 5. Convert Coordinates
+        x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
+        y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
+        # 6. Smoothen Values
+        clocX = plocX + (x3 - plocX) / smoothening
+        clocY = plocY + (y3 - plocY) / smoothening
+        # 7. Move Mouse
+        autopy.mouse.move(wScr - clocX, clocY)
+        cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
+        plocX, plocY = clocX, clocY
         return plocX, plocY
 
     def get_movement(self, lmList, fingers, acquired):
@@ -86,7 +103,7 @@ class hand_gesture_browser():
     def main(self, cap, detector):
         ##########################
         wCam, hCam = 640, 480
-        frameR = 100  # Frame Reduction
+        frameR = 80  # Frame Reduction
         smoothening = 7
         pTime = 0
         plocX, plocY = 0, 0
@@ -102,6 +119,8 @@ class hand_gesture_browser():
         b.launch_browser()
         b.open_tab('https://www.google.com/')
         b.open_tab('https://www.youtube.com/')
+        time.sleep(1)
+        b.script()
 
         # print(wScr, hScr)
 
@@ -118,6 +137,7 @@ class hand_gesture_browser():
             # 2. Get the tip of the index and middle fingers
             if len(lmList) != 0:
                 x1, y1 = lmList[8][1:]
+                x13, y13 = lmList[13][1:]
                 x2, y2 = lmList[12][1:]
                 fingers = detector.fingersUp()
 
@@ -126,16 +146,29 @@ class hand_gesture_browser():
 
                 movement = self.get_movement(lmList,fingers,acquired)
 
-
+                ###############################MOVE######################################
                 if time.time()-time_since_tab_switch > time_to_wait_after_tab_switch:
                     recovered = True
                 if movement != None and recovered:
                     b.switch_to_tab(movement)
                     time_since_tab_switch = time.time()
                     recovered = False
-                plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
-                                                       smoothening, plocX, plocY, x1,y1)
-                self.get_click(fingers, img)
+                ###########################################################################
+
+
+                if fingers[0] == 1 and fingers[1] == 1:
+                    self.get_click(fingers, img)
+                if fingers != [1,1,1,1,1] and fingers !=[0,0,0,0,0]:
+                    plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
+                                                           smoothening, plocX, plocY, x13,y13-50)
+                """"elif fingers == [0,0,0,0,0]:
+                    plocX, plocY = self.get_hold_click(fingers, img, frameR, wCam, hCam, wScr, hScr,
+                    
+                                                       smoothening, plocX, plocY, x1, y1)
+                else:
+                    pyautogui.mouseUp()
+                """
+
 
             # 11. Frame Rate
             cTime = time.time()
@@ -175,8 +208,9 @@ def start_recognition():
 if __name__=='__main__':
     use_face_recognition = False
     if use_face_recognition:
-        from RecognitionClass import FaceRecognition
         start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
+    print("CAP", cap)
     detector = htm.handDetector(maxHands=1)
+    #k = keyboard()
     v = hand_gesture_browser(cap, detector)

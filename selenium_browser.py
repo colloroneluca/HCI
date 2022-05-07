@@ -10,6 +10,7 @@ class Selenium_Browser():
 
     def launch_browser(self):
         self.browser = webdriver.Chrome('./chromedriver_linux64_Luca/chromedriver')
+        self.browser.maximize_window()
 
     def get_resorce(self, url):
         self.browser.get(url)
@@ -43,8 +44,16 @@ class Selenium_Browser():
                 self.browser.switch_to.window(self.browser.window_handles[current_tab-1])
             except:
                 pass
+    def script(self):
+        """js = 'alert("Hello World")'
+        x = open('keyboard/index.js').read()
+        self.browser.execute_script(x)"""
+        pass
 
-
+    def get_html(self, url):
+        self.browser.get("https://en.wikipedia.org")
+        html = self.browser.page_source
+        print(html)
 
 
 
@@ -61,3 +70,4 @@ if __name__ == "__main__":
     print("tab", b.get_current_tab())
     time.sleep(3)
     b.switch_to_tab("right2left")
+    b.script()
