@@ -29,6 +29,7 @@ class hand_gesture_browser():
     def __init__(self, cap, detector):
        self.container = [0,0,0,0,0]
        self.last_click_time = 0
+       self.clicked = False
        self.main(cap,detector)
 
 
@@ -54,11 +55,17 @@ class hand_gesture_browser():
         # 9. Find distance between fingers
         length, img, lineInfo = detector.findDistance(8, 4, img)
         print("Distance between click fingers:", length)
-        if length < 50 and time.time() - self.last_click_time > 1.5:
-            self.last_click_time = time.time()
-            cv2.circle(img, (lineInfo[4], lineInfo[5]),
-                       15, (0, 255, 0), cv2.FILLED)
-            autopy.mouse.click()
+
+        if self.clicked == True:
+            if length < 50 and time.time() - self.last_click_time > 1.5:
+                self.last_click_time = time.time()
+                cv2.circle(img, (lineInfo[4], lineInfo[5]),
+                           15, (0, 255, 0), cv2.FILLED)
+                autopy.mouse.click()
+        if length < 50:
+            self.clicked = True
+        else:
+            self.clicked = False
 
     def get_mouse_movement(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x1,y1):
 
@@ -121,7 +128,12 @@ class hand_gesture_browser():
         b.open_tab('https://www.youtube.com/')
         time.sleep(1)
         b.script()
-
+        ##############################
+        keyboard = True
+        if keyboard:
+            k = KeyboardThread()
+            k.start()
+        #############################
         # print(wScr, hScr)
 
         ############################
@@ -204,6 +216,19 @@ def start_recognition():
             print("welcome back ", str(user), "!!!")
             break
 
+import threading
+
+class KeyboardThread (threading.Thread):
+   def __init__(self):
+      threading.Thread.__init__(self)
+
+   def run(self):
+      k = keyboard()
+
+
+
+
+
 
 if __name__=='__main__':
     use_face_recognition = False
@@ -212,5 +237,4 @@ if __name__=='__main__':
     cap = cv2.VideoCapture(0)
     print("CAP", cap)
     detector = htm.handDetector(maxHands=1)
-    #k = keyboard()
     v = hand_gesture_browser(cap, detector)

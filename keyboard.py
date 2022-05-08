@@ -9,6 +9,7 @@ class keyboard():
 
     def __init__(self):
         self.exp = ""
+        self.theme = "light"
         self.run()
 
     def run(self):
@@ -26,7 +27,7 @@ class keyboard():
         style.configure('TButton', background='gray21')
         style.configure('TButton', foreground='white')
 
-        theme = "light"
+        self.theme = "light"
 
 
         # entry box
@@ -67,20 +68,21 @@ class keyboard():
             global exp
             exp = " "
             equation.set(exp)
+            self.exp = exp
 
 
         def Theme():
-            global theme
-            if theme == "dark":
+
+            if self.theme == "dark":
                 key.configure(bg='gray27')
                 style.configure('TButton', background='gray21')
                 style.configure('TButton', foreground='white')
-                theme = "light"
-            elif theme == "light":
+                self.theme = "light"
+            elif self.theme == "light":
                 key.configure(bg='gray99')
                 style.configure('TButton', background='azure')
                 style.configure('TButton', foreground='black')
-                theme = "dark"
+                self.theme = "dark"
 
 
         def display():
