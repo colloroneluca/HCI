@@ -56,22 +56,23 @@ class hand_gesture_browser():
         length, img, lineInfo = detector.findDistance(8, 4, img)
         print("Distance between click fingers:", length)
 
-        if self.clicked == True:
-            if length < 50 and time.time() - self.last_click_time > 1.5:
-                self.last_click_time = time.time()
-                cv2.circle(img, (lineInfo[4], lineInfo[5]),
-                           15, (0, 255, 0), cv2.FILLED)
-                autopy.mouse.click()
-        if length < 50:
+        #if self.clicked == True:
+        if length < 50 and time.time() - self.last_click_time > 1.5:
+            self.last_click_time = time.time()
+            cv2.circle(img, (lineInfo[4], lineInfo[5]),
+                       15, (0, 255, 0), cv2.FILLED)
+            autopy.mouse.click()
+
+        """if length < 50:
             self.clicked = True
         else:
             self.clicked = False
-
-    def get_mouse_movement(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x1,y1):
+        """
+    def get_mouse_movement(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x13,y13, x1,y1):
 
         # 5. Convert Coordinates
-        x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
-        y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
+        x3 = np.interp(x13, (frameR, wCam - frameR), (0, wScr))
+        y3 = np.interp(y13, (frameR, hCam - frameR), (0, hScr))
         # 6. Smoothen Values
         clocX = plocX + (x3 - plocX) / smoothening
         clocY = plocY + (y3 - plocY) / smoothening
@@ -172,7 +173,7 @@ class hand_gesture_browser():
                     self.get_click(fingers, img)
                 if fingers != [1,1,1,1,1] and fingers !=[0,0,0,0,0]:
                     plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
-                                                           smoothening, plocX, plocY, x13,y13-50)
+                                                           smoothening, plocX, plocY, x13,y13-50, x1,y1)
                 """"elif fingers == [0,0,0,0,0]:
                     plocX, plocY = self.get_hold_click(fingers, img, frameR, wCam, hCam, wScr, hScr,
                     
@@ -234,7 +235,7 @@ if __name__=='__main__':
     use_face_recognition = False
     if use_face_recognition:
         start_recognition()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("CAP", cap)
     detector = htm.handDetector(maxHands=1)
     v = hand_gesture_browser(cap, detector)
