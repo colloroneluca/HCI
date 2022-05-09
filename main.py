@@ -33,11 +33,11 @@ class hand_gesture_browser():
        self.main(cap,detector)
 
 
-    def get_hold_click(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x1, y1):
+    def get_hold_click(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x13, y13, x1, y1):
 
         # 5. Convert Coordinates
-        x3 = np.interp(x1, (frameR, wCam - frameR), (0, wScr))
-        y3 = np.interp(y1, (frameR, hCam - frameR), (0, hScr))
+        x3 = np.interp(x13, (frameR, wCam - frameR), (0, wScr))
+        y3 = np.interp(y13, (frameR, hCam - frameR), (0, hScr))
         # 6. Smoothen Values
         clocX = plocX + (x3 - plocX) / smoothening
         clocY = plocY + (y3 - plocY) / smoothening
