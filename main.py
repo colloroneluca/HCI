@@ -33,6 +33,24 @@ class hand_gesture_browser():
        self.main(cap,detector)
 
 
+    def get_scroll(self, img, lmlist, wCam, hCam):
+
+        length, img, lineInfo = detector.findDistance(8, 12, img)
+        if length < 50:
+            cv2.line(img, (0, hCam//2), (wCam, hCam//2), (0, 255, 0), 2)
+            cv2.line(img, (0, hCam//4), (wCam, hCam//4), (255, 0, 0), 2)
+            cv2.line(img, (0, (hCam//2) + (hCam//4)), (wCam, (hCam//2) + (hCam//4)), (255, 0, 0), 2)
+
+            if lmlist[8][2] < hCam // 4:
+                pyautogui.scroll(120)
+            elif hCam//4 < lmlist[8][2] < hCam//2:
+                pyautogui.scroll(80)
+            elif hCam//2 < lmlist[8][2] < hCam//2 + hCam//4:
+                pyautogui.scroll(-80)
+            else:
+                pyautogui.scroll(120)
+
+
     def get_hold_click(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x13, y13, x1, y1):
 
         # 5. Convert Coordinates
@@ -168,10 +186,12 @@ class hand_gesture_browser():
                     recovered = False
                 ###########################################################################
 
+                if fingers == [0, 1, 1, 0, 0]:
+                    self.get_scroll(img, lmList, wCam, hCam)
 
-                if fingers[0] == 1 and fingers[1] == 1:
+                elif fingers[0] == 1 and fingers[1] == 1:
                     self.get_click(fingers, img)
-                if fingers != [1,1,1,1,1] and fingers !=[0,0,0,0,0]:
+                elif fingers != [1,1,1,1,1] and fingers !=[0,0,0,0,0]:
                     plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
                                                            smoothening, plocX, plocY, x13,y13-50, x1,y1)
                 """"elif fingers == [0,0,0,0,0]:
@@ -187,9 +207,9 @@ class hand_gesture_browser():
             cTime = time.time()
             fps = 1 / (cTime - pTime)
             pTime = cTime
+            img = cv2.flip(img, 1)
             cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3,
                         (255, 0, 0), 3)
-            img = cv2.flip(img, 1)
             # 12. Display
             cv2.imshow("Image", img)
             cv2.waitKey(1)
@@ -227,15 +247,11 @@ class KeyboardThread (threading.Thread):
       k = keyboard()
 
 
-
-
-
-
 if __name__=='__main__':
     use_face_recognition = False
     if use_face_recognition:
         start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     print("CAP", cap)
     detector = htm.handDetector(maxHands=1)
     v = hand_gesture_browser(cap, detector)
