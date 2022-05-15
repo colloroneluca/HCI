@@ -12,9 +12,11 @@ import pyautogui
 from os.path import exists
 from RecognitionClass import FaceRecognition
 from keyboard import keyboard
+from playsound import playsound
 import cv2
 import numpy as np
 from PIL import Image
+import speech_recognition as sr
 import os
 import time
 import json
@@ -125,6 +127,21 @@ class hand_gesture_browser():
                 return ("left2right")
         else:
             return None
+
+    def get_speech(self):
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source)
+            playsound('./1.mpeg')
+            audio = r.listen(source)
+            playsound('./2.mpeg')
+            try:
+                dest = r.recognize_google(audio)
+                print("You have said : " + dest)
+            except Exception as e:
+                print("Error : " + str(e))
+                dest = None
+        return dest
 
     def main(self, cap, detector):
         ##########################
@@ -251,7 +268,7 @@ if __name__=='__main__':
     use_face_recognition = False
     if use_face_recognition:
         start_recognition()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("CAP", cap)
     detector = htm.handDetector(maxHands=1)
     v = hand_gesture_browser(cap, detector)
