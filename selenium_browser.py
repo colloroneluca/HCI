@@ -1,7 +1,9 @@
+import pyperclip
 import selenium
+import pyautogui
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 import time
-
 
 class Selenium_Browser():
     def __init__(self):
@@ -9,7 +11,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('./chromedriver_linux64_Luca/chromedriver')
+        self.browser = webdriver.Chrome('./chromedriver_win32/chromedriver')
         self.browser.maximize_window()
 
     def get_resorce(self, url):
@@ -44,6 +46,23 @@ class Selenium_Browser():
                 self.browser.switch_to.window(self.browser.window_handles[current_tab-1])
             except:
                 pass
+
+    # Non utilizzata per ora
+    def get_active_tab_url(self):
+        # random click for focusing the browser (forse non necessario)
+        pyautogui.press('f6')
+        pyautogui.hotkey('ctrl', 'c')
+        url = pyperclip.paste()
+        return url
+
+    def check_input_cell(self):
+        input_cells = self.browser.find_elements_by_xpath('//input[@type = "text"]')
+
+        if self.browser.switch_to.active_element in input_cells:
+            # start speech recognizer
+            self.browser.switch_to.active_element.send_keys("marco")
+        return
+
     def script(self):
         """js = 'alert("Hello World")'
         x = open('keyboard/index.js').read()
@@ -54,8 +73,6 @@ class Selenium_Browser():
         self.browser.get("https://en.wikipedia.org")
         html = self.browser.page_source
         print(html)
-
-
 
     def do_stuff(self):
         time.sleep(5)

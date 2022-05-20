@@ -35,14 +35,26 @@ class hand_gesture_browser():
        self.main(cap,detector)
 
 
-    def get_scroll(self, img, lmlist, wCam, hCam):
 
+    def get_controlled_scroll(self, img, lmlist, wCam, hCam):
+        cv2.line(img, (0, hCam // 2 - 60), (wCam, hCam // 2 - 60), (0, 255, 0), 2)
+        cv2.line(img, (0, hCam // 2 + 60), (wCam, hCam // 2 + 60), (0, 255, 0), 2)
+        if hCam // 2 - 60 <= lmlist[10][2] <= hCam // 2 + 60:
+            return
+        if lmlist[10][2] < hCam // 2 - 60:
+            distance = (hCam // 2 - 60) - lmlist[10][2]
+        else:
+            distance = (hCam // 2 + 60) - lmlist[10][2]
+        pyautogui.scroll(distance)
+
+
+
+    def get_scroll(self, img, lmlist, wCam, hCam):
         length, img, lineInfo = detector.findDistance(8, 12, img)
         if length < 50:
             cv2.line(img, (0, hCam//2), (wCam, hCam//2), (0, 255, 0), 2)
             cv2.line(img, (0, hCam//4), (wCam, hCam//4), (255, 0, 0), 2)
             cv2.line(img, (0, (hCam//2) + (hCam//4)), (wCam, (hCam//2) + (hCam//4)), (255, 0, 0), 2)
-
             if lmlist[8][2] < hCam // 4:
                 pyautogui.scroll(120)
             elif hCam//4 < lmlist[8][2] < hCam//2:
@@ -70,11 +82,11 @@ class hand_gesture_browser():
 
         return plocX, plocY
 
-    def get_click(self, fingers, img):
+    def get_click(self, fingers, img, b):
 
         # 9. Find distance between fingers
         length, img, lineInfo = detector.findDistance(8, 4, img)
-        print("Distance between click fingers:", length)
+        #print("Distance between click fingers:", length)
 
         #if self.clicked == True:
         if length < 50 and time.time() - self.last_click_time > 1.5:
@@ -82,6 +94,8 @@ class hand_gesture_browser():
             cv2.circle(img, (lineInfo[4], lineInfo[5]),
                        15, (0, 255, 0), cv2.FILLED)
             autopy.mouse.click()
+            b.check_input_cell()
+
 
         """if length < 50:
             self.clicked = True
@@ -118,12 +132,12 @@ class hand_gesture_browser():
             else:
                 difference = None
         if difference != None:
-            print("Difference =>", difference)
+            #print("Difference =>", difference)
             if difference > 60:
-                print("\nRIGHT\n")
+                #print("\nRIGHT\n")
                 return ("right2left")
             if difference < -60:
-                print("\nLeft\n")
+                #print("\nLeft\n")
                 return ("left2right")
         else:
             return None
@@ -162,6 +176,7 @@ class hand_gesture_browser():
         b.launch_browser()
         b.open_tab('https://www.google.com/')
         b.open_tab('https://www.youtube.com/')
+        b.open_tab('https://www.ebay.it/')
         time.sleep(1)
         b.script()
         ##############################
@@ -203,11 +218,10 @@ class hand_gesture_browser():
                     recovered = False
                 ###########################################################################
 
-                if fingers == [0, 1, 1, 0, 0]:
-                    self.get_scroll(img, lmList, wCam, hCam)
-
+                if fingers == [0, 0, 0, 0, 0]:
+                    self.get_controlled_scroll(img, lmList, wCam, hCam)
                 elif fingers[0] == 1 and fingers[1] == 1:
-                    self.get_click(fingers, img)
+                    self.get_click(fingers, img, b)
                 elif fingers != [1,1,1,1,1] and fingers !=[0,0,0,0,0]:
                     plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
                                                            smoothening, plocX, plocY, x13,y13-50, x1,y1)
@@ -268,7 +282,7 @@ if __name__=='__main__':
     use_face_recognition = False
     if use_face_recognition:
         start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     print("CAP", cap)
     detector = htm.handDetector(maxHands=1)
     v = hand_gesture_browser(cap, detector)
