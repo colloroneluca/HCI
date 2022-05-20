@@ -5,22 +5,27 @@
   },
   {
     "id": 1,
-    "username": "Marco"
+    "username": "Marco",
+    "tabs": []
   },
   {
     "id": 2,
-    "username": "Valerio"
+    "username": "Valerio",
+    "tabs": []
   },
   {
     "id": 3,
-    "username": "Pier"
+    "username": "Pier",
+    "tabs": []
   },
   {
     "id": 4,
-    "username": "Natalie"
+    "username": "Natalie",
+    "tabs": []
   },
   {
     "id": 5,
-    "username": "Francesco"
+    "username": "Francesco",
+    "tabs": []
   }
 ]

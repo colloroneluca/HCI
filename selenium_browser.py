@@ -4,6 +4,8 @@ import pyautogui
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 import time
+from playsound import playsound
+import speech_recognition as sr
 
 class Selenium_Browser():
     def __init__(self):
@@ -49,7 +51,6 @@ class Selenium_Browser():
 
     # Non utilizzata per ora
     def get_active_tab_url(self):
-        # random click for focusing the browser (forse non necessario)
         pyautogui.press('f6')
         pyautogui.hotkey('ctrl', 'c')
         url = pyperclip.paste()
@@ -59,9 +60,26 @@ class Selenium_Browser():
         input_cells = self.browser.find_elements_by_xpath('//input[@type = "text"]')
 
         if self.browser.switch_to.active_element in input_cells:
+            self.browser.switch_to.active_element.send_keys("")
             # start speech recognizer
-            self.browser.switch_to.active_element.send_keys("marco")
+            speech = self.get_speech()
+            self.browser.switch_to.active_element.send_keys(speech)
         return
+
+    def get_speech(self):
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source)
+            playsound('./1.mpeg')
+            audio = r.listen(source)
+            playsound('./2.mpeg')
+            try:
+                dest = r.recognize_google(audio)
+                print("You have said : " + dest)
+            except Exception as e:
+                print("Error : " + str(e))
+                dest = None
+        return dest
 
     def script(self):
         """js = 'alert("Hello World")'
