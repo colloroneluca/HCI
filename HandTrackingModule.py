@@ -6,12 +6,13 @@ import numpy as np
 
 
 class handDetector():
-    def __init__(self, mode=False, maxHands=2, detectionCon=0.5, trackCon=0.5):
+    def __init__(self, mode=False, maxHands=2, dominant='Right',detectionCon=0.5, trackCon=0.5):
         self.mode = mode
         self.maxHands = maxHands
         self.detectionCon = detectionCon
         self.trackCon = trackCon
-
+        self.dominant = dominant
+        self.ind = 0
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
@@ -37,9 +38,22 @@ class handDetector():
         xList = []
         yList = []
         bbox = []
+        current_hand = None
         self.lmList = []
+
         if self.results.multi_hand_landmarks:
-            myHand = self.results.multi_hand_landmarks[handNo]
+            myhands = []
+            for hand in self.results.multi_handedness:
+                myhands.append(hand.classification[0].label)
+
+            try:
+                self.ind = (myhands.index(self.dominant)-1)%2
+
+                myHand = self.results.multi_hand_landmarks[self.ind]
+                current_hand = myhands[self.ind]
+            except:
+                myHand = self.results.multi_hand_landmarks[0]
+                current_hand = myhands[0]
             for id, lm in enumerate(myHand.landmark):
                 # print(id, lm)
                 h, w, c = img.shape
@@ -58,8 +72,12 @@ class handDetector():
             if draw:
                 cv2.rectangle(img, (xmin - 20, ymin - 20), (xmax + 20, ymax + 20),
                               (0, 100, 0), 2)
+            if current_hand == 'Left':
+                current_hand = 'Right'
+            elif current_hand == "Right":
+                current_hand = "Left"
 
-        return self.lmList, bbox
+        return self.lmList, current_hand
 
     def fingersUp(self):
 
@@ -106,15 +124,16 @@ def main():
 
     pTime = 0
     cTime = 0
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("acquired video ")
-    detector = handDetector()
+    detector = handDetector(maxHands=2, dominant='Right')
     print("created detector")
     while True:
         success, img = cap.read()
         img = cv2.flip(img, 1)
         img = detector.findHands(img)
         lmList = detector.findPosition(img)
+        print("Out Lmlist => ", lmList, "\n")
         if len(lmList) != 0:
             # print(lmList)
             pass

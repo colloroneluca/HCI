@@ -13,7 +13,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('./chromedriver_win32/chromedriver')
+        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver')
         self.browser.maximize_window()
 
     def get_resorce(self, url):

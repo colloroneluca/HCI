@@ -197,7 +197,8 @@ class hand_gesture_browser():
             # 1. Find hand Landmarks
             success, img = cap.read()
             img = detector.findHands(img)
-            lmList, bbox = detector.findPosition(img)
+            lmList, current_hand = detector.findPosition(img)
+            print("Current hand", current_hand)
             # 2. Get the tip of the index and middle fingers
             if len(lmList) != 0:
                 x1, y1 = lmList[8][1:]
@@ -284,11 +285,16 @@ class KeyboardThread(threading.Thread):
 
 
 if __name__ == '__main__':
-    user = None
-    use_face_recognition = True
+    user = {
+        "id": 1,
+        "username": "Marco",
+        "dominant": "Right",
+        "tabs": []
+    }
+    use_face_recognition = False
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("CAP", cap)
-    detector = htm.handDetector(maxHands=1)
+    detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     v = hand_gesture_browser(cap, detector, user)
