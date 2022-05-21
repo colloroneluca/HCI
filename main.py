@@ -117,6 +117,12 @@ class hand_gesture_browser():
             self.clicked = False
         """
 
+    def get_screenshot(self, img, b):
+        length, img, lineInfo = detector.findDistance(8, 4, img)
+        if length < 50 and time.time() - self.last_click_time > 1.5:
+            self.last_click_time = time.time()
+            b.get_browser_screenshot()
+
     def get_mouse_movement(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x13, y13, x1,
                            y1):
 
@@ -222,6 +228,8 @@ class hand_gesture_browser():
 
                 if fingers == [0, 0, 0, 0, 0]:
                     self.get_controlled_scroll(img, lmList, wCam, hCam)
+                elif fingers == [1, 1, 0, 0, 1]:
+                    self.get_screenshot(img, b)
                 elif fingers[0] == 1 and fingers[1] == 1:
                     self.get_click(fingers, img, b)
                 elif fingers == [0, 1, 0, 0, 0]:
@@ -286,10 +294,10 @@ class KeyboardThread(threading.Thread):
 
 if __name__ == '__main__':
 
-    use_face_recognition = True
+    use_face_recognition = False
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     print("CAP", cap)
     user = {
         "id": 1,

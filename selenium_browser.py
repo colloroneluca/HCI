@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 import time
 from playsound import playsound
 import speech_recognition as sr
+from datetime import datetime
 
 class Selenium_Browser():
     def __init__(self):
@@ -13,7 +14,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver')
+        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver')
         self.browser.maximize_window()
 
     def get_resorce(self, url):
@@ -80,6 +81,12 @@ class Selenium_Browser():
                 print("Error : " + str(e))
                 dest = None
         return dest
+
+    def get_browser_screenshot(self):
+        current_date_time = ".".join(datetime.now().strftime("%Y-%m-%d %H-%M-%S").split(" "))
+        screenshot_name = "BrowserScreenshot/screenshot." + current_date_time + ".png"
+        self.browser.save_screenshot(screenshot_name)
+        print("{} saved!!!".format(screenshot_name))
 
     def script(self):
         """js = 'alert("Hello World")'

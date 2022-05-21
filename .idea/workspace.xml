@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f149acf7-6318-48e3-8e1c-d544742f8dae" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RecognitionClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecognitionClass.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/encodings.json" beforeDir="false" afterPath="$PROJECT_DIR$/encodings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selenium_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/selenium_browser.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,35 +87,47 @@
       <updated>1653064359732</updated>
       <workItem from="1653064361253" duration="7538000" />
       <workItem from="1653142204217" duration="2649000" />
+      <workItem from="1653150242922" duration="971000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1237" height="110" key="GridCell.Tab.0.bottom" timestamp="1653144665088">
+    <state width="1237" height="212" key="GridCell.Tab.0.bottom" timestamp="1653150881388">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664068" />
-    <state width="1237" height="110" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1653144665088" />
-    <state width="1237" height="110" key="GridCell.Tab.0.center" timestamp="1653144665088">
+    <state width="1237" height="212" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1653150881388" />
+    <state width="1237" height="212" key="GridCell.Tab.0.center" timestamp="1653150881387">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664067" />
-    <state width="1237" height="110" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1653144665088" />
-    <state width="1237" height="110" key="GridCell.Tab.0.left" timestamp="1653144665087">
+    <state width="1237" height="212" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1653150881387" />
+    <state width="1237" height="212" key="GridCell.Tab.0.left" timestamp="1653150881387">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664067" />
-    <state width="1237" height="110" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1653144665087" />
-    <state width="1237" height="110" key="GridCell.Tab.0.right" timestamp="1653144665088">
+    <state width="1237" height="212" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1653150881387" />
+    <state width="1237" height="212" key="GridCell.Tab.0.right" timestamp="1653150881387">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664068" />
-    <state width="1237" height="110" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1653144665088" />
+    <state width="1237" height="212" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1653150881387" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1653144665074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1653151223945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
