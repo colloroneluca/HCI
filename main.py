@@ -285,16 +285,17 @@ class KeyboardThread(threading.Thread):
 
 
 if __name__ == '__main__':
+
+    use_face_recognition = True
+    if use_face_recognition:
+        user = start_recognition()
+    cap = cv2.VideoCapture(2)
+    print("CAP", cap)
     user = {
         "id": 1,
         "username": "Marco",
         "dominant": "Right",
         "tabs": []
     }
-    use_face_recognition = False
-    if use_face_recognition:
-        user = start_recognition()
-    cap = cv2.VideoCapture(2)
-    print("CAP", cap)
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     v = hand_gesture_browser(cap, detector, user)
