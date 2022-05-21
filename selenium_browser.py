@@ -58,7 +58,7 @@ class Selenium_Browser():
         return url
 
     def check_input_cell(self):
-        input_cells = self.browser.find_elements_by_xpath('//input[@type = "text"]')
+        input_cells = self.browser.find_elements_by_xpath('//input[@type="text" or @type="password"] | //textarea')
 
         if self.browser.switch_to.active_element in input_cells:
             self.browser.switch_to.active_element.send_keys("")
