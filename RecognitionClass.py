@@ -87,9 +87,10 @@ class FaceRecognition:
 
         c = Counter(prediction_list)
         if prediction_list:
-            return c.most_common(1)[0][0]
+            username = c.most_common(1)[0][0]
         else:
-            return None
+            username = "None"
+        return self.getUserFromUsername(username)
 
     def addNewUser(self):
 
@@ -136,7 +137,7 @@ class FaceRecognition:
             elif k % 256 == 32:
                 # SPACE pressed
                 count += 1
-                img_name = 'ImagesAttendance/User/' + str(last_id + 1) + '.' + str(count) + ".png"
+                img_name = 'ImagesAttendance/User.' + str(last_id + 1) + '.' + str(count) + ".png"
                 cv2.imwrite(img_name, pic)
                 images.append(pic)
                 print("{} written!".format(img_name))
@@ -148,8 +149,11 @@ class FaceRecognition:
             self.encodeListKnown.append(x)
         self.saveEncodings(self.encodeListKnown)
 
+        return {'id': int(last_id + 1), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []}
+
+
     def saveNewUser(self, face_id, username, dominant_hand):
-        self.users.append({'id': int(face_id), 'username': username})
+        self.users.append({'id': int(face_id), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []})
         with open(self.usersPath, 'w') as f:
             json.dump(self.users, f, indent=4, separators=(',', ': '))
 
@@ -157,6 +161,11 @@ class FaceRecognition:
         with open(self.usersPath, 'r+') as f:
             users = json.load(f)
         return users
+
+    def getUserFromUsername(self, username):
+        for user in self.users:
+            if user["username"] == username:
+                return user
 
 
 

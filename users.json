@@ -1,31 +1,36 @@
 [
-  {
-    "id": 0,
-    "username": "None"
-  },
-  {
-    "id": 1,
-    "username": "Marco",
-    "tabs": []
-  },
-  {
-    "id": 2,
-    "username": "Valerio",
-    "tabs": []
-  },
-  {
-    "id": 3,
-    "username": "Pier",
-    "tabs": []
-  },
-  {
-    "id": 4,
-    "username": "Natalie",
-    "tabs": []
-  },
-  {
-    "id": 5,
-    "username": "Francesco",
-    "tabs": []
-  }
+    {
+        "id": 0,
+        "username": "Unknown"
+    },
+    {
+        "id": 1,
+        "username": "Marco",
+        "dominant_hand": "dx",
+        "tabs": []
+    },
+    {
+        "id": 2,
+        "username": "Valerio",
+        "dominant_hand": "sx",
+        "tabs": []
+    },
+    {
+        "id": 3,
+        "username": "Pier",
+        "dominant_hand": "dx",
+        "tabs": []
+    },
+    {
+        "id": 4,
+        "username": "Natalie",
+        "dominant_hand": "sx",
+        "tabs": []
+    },
+    {
+        "id": 5,
+        "username": "Francesco",
+        "dominant_hand": "dx",
+        "tabs": []
+    }
 ]
