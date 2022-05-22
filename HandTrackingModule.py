@@ -13,6 +13,7 @@ class handDetector():
         self.trackCon = trackCon
         self.dominant = dominant
         self.ind = 0
+        self.counter = 0
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
@@ -38,6 +39,7 @@ class handDetector():
         xList = []
         yList = []
         bbox = []
+        myhands = []
         current_hand = None
         self.lmList = []
 
@@ -76,8 +78,15 @@ class handDetector():
                 current_hand = 'Right'
             elif current_hand == "Right":
                 current_hand = "Left"
-
-        return self.lmList, current_hand
+        if len(myhands) == 2:
+            if self.fingersUp() == [1,1,1,1,1]:
+                self.counter +=1
+            elif self.counter > 0:
+                self.counter -= 1
+        elif self.counter > 0:
+            self.counter -=1
+        print("Counter", self.counter)
+        return self.lmList, current_hand, self.counter
 
     def fingersUp(self):
 

@@ -163,6 +163,8 @@ class hand_gesture_browser():
                 return ("left2right")
         else:
             return None
+    def close(self):
+        exit()
 
     def main(self, cap, detector):
         ##########################
@@ -203,7 +205,9 @@ class hand_gesture_browser():
             # 1. Find hand Landmarks
             success, img = cap.read()
             img = detector.findHands(img)
-            lmList, current_hand = detector.findPosition(img)
+            lmList, current_hand, counter = detector.findPosition(img)
+            if counter > 50:
+                self.close()
             print("Current hand", current_hand)
             # 2. Get the tip of the index and middle fingers
             if len(lmList) != 0:
@@ -297,7 +301,7 @@ if __name__ == '__main__':
     use_face_recognition = False
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("CAP", cap)
     user = {
         "id": 1,
