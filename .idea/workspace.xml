@@ -20,7 +20,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f149acf7-6318-48e3-8e1c-d544742f8dae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/selenium_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/selenium_browser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.23.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.4.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ImagesAttendance/User.5.9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RecognitionClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecognitionClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/encodings.json" beforeDir="false" afterPath="$PROJECT_DIR$/encodings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +81,29 @@
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.RecognitionClass">
+    <configuration name="RecognitionClass" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HCI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RecognitionClass.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HCI" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -68,6 +128,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.RecognitionClass" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -85,6 +146,7 @@
       <workItem from="1653064361253" duration="7538000" />
       <workItem from="1653142204217" duration="2649000" />
       <workItem from="1653150242922" duration="1160000" />
+      <workItem from="1653292134076" duration="1595000" />
     </task>
     <servers />
   </component>
@@ -101,30 +163,36 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1237" height="132" key="GridCell.Tab.0.bottom" timestamp="1653151336347">
-      <screen x="0" y="0" width="1280" height="672" />
+    <state width="1637" height="270" key="GridCell.Tab.0.bottom" timestamp="1653293132667">
+      <screen x="1920" y="0" width="1680" height="1002" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664068" />
+    <state width="1637" height="270" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132667" />
     <state width="1237" height="132" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1653151336347" />
-    <state width="1237" height="132" key="GridCell.Tab.0.center" timestamp="1653151336347">
-      <screen x="0" y="0" width="1280" height="672" />
+    <state width="1637" height="270" key="GridCell.Tab.0.center" timestamp="1653293132666">
+      <screen x="1920" y="0" width="1680" height="1002" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664067" />
+    <state width="1637" height="270" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132666" />
     <state width="1237" height="132" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1653151336347" />
-    <state width="1237" height="132" key="GridCell.Tab.0.left" timestamp="1653151336347">
-      <screen x="0" y="0" width="1280" height="672" />
+    <state width="1637" height="270" key="GridCell.Tab.0.left" timestamp="1653293132664">
+      <screen x="1920" y="0" width="1680" height="1002" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664067" />
+    <state width="1637" height="270" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132664" />
     <state width="1237" height="132" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1653151336347" />
-    <state width="1237" height="132" key="GridCell.Tab.0.right" timestamp="1653151336347">
-      <screen x="0" y="0" width="1280" height="672" />
+    <state width="1637" height="270" key="GridCell.Tab.0.right" timestamp="1653293132667">
+      <screen x="1920" y="0" width="1680" height="1002" />
     </state>
     <state width="1237" height="107" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653072664068" />
+    <state width="1637" height="270" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132667" />
     <state width="1237" height="132" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1653151336347" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1653151223945" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HCI$RecognitionClass.coverage" NAME="RecognitionClass Coverage Results" MODIFIED="1653293132584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

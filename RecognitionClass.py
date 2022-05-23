@@ -12,7 +12,8 @@ class FaceRecognition:
     def __init__(self):
         self.usersPath = 'users.json'
         self.path = 'ImagesAttendance'
-        self.encodeListKnown = self.getEncodings()
+        self.encodeListKnown = []
+        #self.encodeListKnown = self.getEncodings()
         self.users = self.getUsersList()
 
     def getClassesImages(self):
@@ -26,14 +27,16 @@ class FaceRecognition:
             class_names.append(os.path.splitext(cl)[0])
         return class_names, imgs
 
-    def findEncodings(self, images):
+    def findEncodings(self, images, classes):
         encodeList = []
-        for img in images:
+        for index, img in enumerate(images):
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             result = face_recognition.face_encodings(img)
             if result:
                 encode = result[0]
                 encodeList.append(encode.tolist())
+            else:
+                print(classes[index])
         print("Encodings completed")
         return encodeList
 
@@ -166,6 +169,24 @@ class FaceRecognition:
         for user in self.users:
             if user["username"] == username:
                 return user
+
+
+app = FaceRecognition()
+
+classes, images = app.getClassesImages()
+print("Num classes ", len(classes))
+print("Num images ", len(images))
+
+encodeList = app.findEncodings(images, classes)
+
+print("Num encodings ", len(encodeList))
+
+app.saveEncodings(encodeList)
+
+print("Num encodings in json ", len(app.getEncodings()))
+
+
+
 
 
 
