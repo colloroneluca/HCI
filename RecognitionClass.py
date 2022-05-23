@@ -28,7 +28,6 @@ class FaceRecognition:
             classes.append(os.path.splitext(cl)[0])
         self.class_names = classes
         print("Num classes ", len(self.class_names))
-        print("Num images ", len(imgs))
         return imgs
 
     def findEncodings(self, images):
@@ -54,6 +53,7 @@ class FaceRecognition:
     def getEncodings(self):
         with open('encodings.json', 'r+') as f:
             encodeList = json.load(f)
+        print("Num encodings ", len(encodeList))
         return encodeList
 
     def recognition(self):
@@ -177,21 +177,6 @@ class FaceRecognition:
             if user["username"] == username:
                 return user
 
-'''app = FaceRecognition()
-
-classes, images = app.getClassesImages()
-print("Num classes ", len(classes))
-print("Num images ", len(images))
-
-app.recognition()
-
-encodeList = app.findEncodings(images, classes)
-
-print("Num encodings ", len(encodeList))
-
-app.saveEncodings(encodeList)
-
-#print("Num encodings in json ", len(app.getEncodings()))'''
 
 
 
