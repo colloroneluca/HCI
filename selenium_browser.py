@@ -7,6 +7,7 @@ import time
 from playsound import playsound
 import speech_recognition as sr
 from datetime import datetime
+from utilities import start_sound
 
 class Selenium_Browser():
     def __init__(self):
@@ -14,7 +15,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
         self.browser.maximize_window()
 
     def get_resorce(self, url):
@@ -68,9 +69,9 @@ class Selenium_Browser():
         r = sr.Recognizer()
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
-            playsound('./1.mpeg')
+            start_sound('start_speech.mp3')
             audio = r.listen(source)
-            playsound('./2.mpeg')
+            start_sound('close_speech.mp3')
             try:
                 dest = r.recognize_google(audio)
                 print("You have said : " + dest)

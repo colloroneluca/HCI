@@ -1,9 +1,23 @@
 from RecognitionClass import FaceRecognition
 import time
+from playsound import playsound
+
+import threading
+import time
+
+def play(sound_):
+
+    playsound(sound_)
+
+def start_sound(sound):
+
+    x = threading.Thread(target=play, args=(sound,))
+    x.start()
+
 
 def background_startup(detector, cap):
     counter = 0
-    while counter < 100:
+    while counter < 50:
         print(detector.counter)
         success, img = cap.read()
         img = detector.findHands(img)

@@ -26,7 +26,7 @@ import HandTrackingModule as htm
 import time
 import autopy
 from selenium_browser import Selenium_Browser
-from utilities import start_recognition, background_startup
+from utilities import start_recognition, background_startup, start_sound, play
 
 class hand_gesture_browser():
     def __init__(self, cap, detector, user):
@@ -159,6 +159,7 @@ class hand_gesture_browser():
             return None
 
     def close(self):
+        play('close.mp3')
         exit()
 
 
@@ -250,10 +251,10 @@ class hand_gesture_browser():
 
 if __name__ == '__main__':
     background = True #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = True
+    use_face_recognition = False
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("CAP", cap)
     user = {
         "id": 1,
@@ -264,6 +265,6 @@ if __name__ == '__main__':
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     if background:
         background_startup(detector, cap)
-
+    start_sound('start.mp3')
     v = hand_gesture_browser(cap, detector, user)
 
