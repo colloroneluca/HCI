@@ -1,7 +1,7 @@
 from RecognitionClass import FaceRecognition
 import time
 from playsound import playsound
-
+from micro import microphone
 import threading
 import time
 
@@ -14,6 +14,12 @@ def start_sound(sound):
     x = threading.Thread(target=play, args=(sound,))
     x.start()
 
+
+
+def start_micro(lista):
+    m = microphone()
+    lista.append(m)
+    return lista
 
 def background_startup(detector, cap):
     counter = 0

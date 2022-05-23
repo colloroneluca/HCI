@@ -1,3 +1,4 @@
+import threading
 import pyperclip
 import selenium
 import pyautogui
@@ -7,7 +8,7 @@ import time
 from playsound import playsound
 import speech_recognition as sr
 from datetime import datetime
-from utilities import start_sound
+from utilities import start_sound, start_micro
 
 class Selenium_Browser():
     def __init__(self):
@@ -66,12 +67,30 @@ class Selenium_Browser():
         return
 
     def get_speech(self):
+        lista = []
         r = sr.Recognizer()
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
             start_sound('start_speech.mp3')
+            f = open("thread_control.txt", "w")
+            f.write("0")
+            f.close()
+
+            x = threading.Thread(target=start_micro, args=(lista,))
+            x.start()
+            print("lista", lista)
             audio = r.listen(source)
+            f = open("thread_control.txt", "w")
+            f.write("1")
+
+            f.close()
             start_sound('close_speech.mp3')
+
+
+
+
+
+
             try:
                 dest = r.recognize_google(audio)
                 print("You have said : " + dest)
