@@ -20,5 +20,11 @@
         "username": "Marco",
         "dominant_hand": "dx",
         "tabs": []
+    },
+    {
+        "id": 4,
+        "username": "Luca",
+        "dominant_hand": "dx",
+        "tabs": []
     }
 ]

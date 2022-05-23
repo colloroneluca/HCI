@@ -251,7 +251,7 @@ class hand_gesture_browser():
 
 if __name__ == '__main__':
     background = True #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = False
+    use_face_recognition = True
     if use_face_recognition:
         user = start_recognition()
     cap = cv2.VideoCapture(2)
