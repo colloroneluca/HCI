@@ -59,7 +59,7 @@ class Selenium_Browser():
         input_cells = self.browser.find_elements_by_xpath('//input[@type="text" or @type="password"] | //textarea')
 
         if self.browser.switch_to.active_element in input_cells:
-            self.browser.switch_to.active_element.send_keys("")
+            self.browser.switch_to.active_element.clear()
             # start speech recognizer
             speech = self.get_speech()
             self.browser.switch_to.active_element.send_keys(speech)

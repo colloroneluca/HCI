@@ -10,6 +10,7 @@ import copy
 class FaceRecognition:
 
     def __init__(self):
+        self.class_names = []
         self.usersPath = 'users.json'
         self.path = 'ImagesAttendance'
         self.getClassesImages()
@@ -178,7 +179,11 @@ class FaceRecognition:
                 return user
 
 
+#app = FaceRecognition()
 
+'''images = app.getClassesImages()
+
+app.saveEncodings(app.findEncodings(images))'''
 
 
 

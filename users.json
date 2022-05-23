@@ -5,19 +5,19 @@
     },
     {
         "id": 1,
-        "username": "Marco",
-        "dominant_hand": "dx",
-        "tabs": []
-    },
-    {
-        "id": 2,
         "username": "Valerio",
         "dominant_hand": "sx",
         "tabs": []
     },
     {
-        "id": 3,
+        "id": 2,
         "username": "Pier",
+        "dominant_hand": "dx",
+        "tabs": []
+    },
+    {
+        "id": 3,
+        "username": "Marco",
         "dominant_hand": "dx",
         "tabs": []
     }
