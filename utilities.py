@@ -1,4 +1,4 @@
-import FaceRecognition
+from RecognitionClass import FaceRecognition
 import time
 
 def background_startup(detector, cap):
@@ -13,10 +13,10 @@ def start_recognition():
     app = FaceRecognition()
     while True:
         # 1. Get all the available classes
-        classes, images = app.getClassesImages()
+        #classes, images = app.getClassesImages()
 
         # 2. Apply the recognition
-        user = app.recognition(classes)
+        user = app.recognition()
 
         # 3. Check if the user is registered
         if user["username"] == "Unknown":

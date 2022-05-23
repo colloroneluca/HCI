@@ -12,22 +12,26 @@ class FaceRecognition:
     def __init__(self):
         self.usersPath = 'users.json'
         self.path = 'ImagesAttendance'
-        self.encodeListKnown = []
-        #self.encodeListKnown = self.getEncodings()
+        self.getClassesImages()
+        self.encodeListKnown = self.getEncodings()
         self.users = self.getUsersList()
 
     def getClassesImages(self):
         imgs = []
-        class_names = []
+        classes = []
         file_list = os.listdir(self.path)
+        file_list.sort()
         print("Class Detected: ", file_list)
         for cl in file_list:
             cur_img = cv2.imread(f'{self.path}/{cl}')
             imgs.append(cur_img)
-            class_names.append(os.path.splitext(cl)[0])
-        return class_names, imgs
+            classes.append(os.path.splitext(cl)[0])
+        self.class_names = classes
+        print("Num classes ", len(self.class_names))
+        print("Num images ", len(imgs))
+        return imgs
 
-    def findEncodings(self, images, classes):
+    def findEncodings(self, images):
         encodeList = []
         for index, img in enumerate(images):
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -36,7 +40,9 @@ class FaceRecognition:
                 encode = result[0]
                 encodeList.append(encode.tolist())
             else:
-                print(classes[index])
+                os.remove('ImagesAttendance/' + self.class_names[index] + '.png')
+                print(self.class_names[index])
+                self.class_names.pop(index)
         print("Encodings completed")
         return encodeList
 
@@ -50,7 +56,7 @@ class FaceRecognition:
             encodeList = json.load(f)
         return encodeList
 
-    def recognition(self, class_names):
+    def recognition(self):
 
         cap = cv2.VideoCapture(0)
         t_end = time.time() + 5
@@ -69,7 +75,7 @@ class FaceRecognition:
                 matchIndex = np.argmin(faceDis)
 
                 if faceDis[matchIndex] < 0.5:
-                    userIndex = class_names[matchIndex].split(".")[1]
+                    userIndex = self.class_names[matchIndex].split(".")[1]
                     name = self.users[int(userIndex)]['username']
                 else:
                     name = "Unknown"
@@ -148,12 +154,13 @@ class FaceRecognition:
         cam.release()
         cv2.destroyAllWindows()
 
+        # Update classes list with the new pics saved
+        self.getClassesImages()
         for x in self.findEncodings(images):
             self.encodeListKnown.append(x)
         self.saveEncodings(self.encodeListKnown)
 
         return {'id': int(last_id + 1), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []}
-
 
     def saveNewUser(self, face_id, username, dominant_hand):
         self.users.append({'id': int(face_id), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []})
@@ -170,12 +177,13 @@ class FaceRecognition:
             if user["username"] == username:
                 return user
 
-
-app = FaceRecognition()
+'''app = FaceRecognition()
 
 classes, images = app.getClassesImages()
 print("Num classes ", len(classes))
 print("Num images ", len(images))
+
+app.recognition()
 
 encodeList = app.findEncodings(images, classes)
 
@@ -183,7 +191,7 @@ print("Num encodings ", len(encodeList))
 
 app.saveEncodings(encodeList)
 
-print("Num encodings in json ", len(app.getEncodings()))
+#print("Num encodings in json ", len(app.getEncodings()))'''
 
 
 
