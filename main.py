@@ -98,7 +98,7 @@ class hand_gesture_browser():
         # if self.clicked == True:
 
         if length < 50 and time.time() - self.last_click_time > 1.5:
-            print(length)
+
             self.clicked+=1
             if self.clicked == 2:
                 autopy.mouse.click()
@@ -250,7 +250,7 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = False #If true the program starts in background: raise 2 hands to start it
+    background = True #If true the program starts in background: raise 2 hands to start it
     use_face_recognition = False
     if use_face_recognition:
         user = start_recognition()

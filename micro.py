@@ -55,7 +55,7 @@ class microphone():
     def check(self):
         f = open("thread_control.txt", "r")
         num = f.read()
-        print(num)
+
         if num == "1":
             self.destroier()
         self.root.after(100, self.check)
