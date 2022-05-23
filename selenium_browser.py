@@ -29,11 +29,8 @@ class Selenium_Browser():
     def get_current_tab(self):
 
         current_tab = self.browser.current_window_handle
-
         tabs = self.browser.window_handles
-
         index = tabs.index(current_tab)
-
         return index
 
     def switch_to_tab(self,direction):
@@ -79,7 +76,7 @@ class Selenium_Browser():
                 print("You have said : " + dest)
             except Exception as e:
                 print("Error : " + str(e))
-                dest = None
+                dest = ''
         return dest
 
     def get_browser_screenshot(self):

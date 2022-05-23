@@ -14,6 +14,7 @@ class handDetector():
         self.dominant = dominant
         self.ind = 0
         self.counter = 0
+        self.current_hand = ''
         self.mpHands = mp.solutions.hands
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
@@ -34,6 +35,11 @@ class handDetector():
                                                self.mpHands.HAND_CONNECTIONS)
 
         return img
+    def get_current_hands(self):
+        myhands = []
+        for hand in self.results.multi_handedness:
+            myhands.append(hand.classification[0].label)
+        return myhands
 
     def findPosition(self, img, handNo=0, draw=True):
         xList = []
@@ -42,13 +48,9 @@ class handDetector():
         myhands = []
         current_hand = None
         self.lmList = []
-
         if self.results.multi_hand_landmarks:
-            myhands = []
-            for hand in self.results.multi_handedness:
-                myhands.append(hand.classification[0].label)
-
             try:
+                myhands = self.get_current_hands()
                 self.ind = (myhands.index(self.dominant)-1)%2
 
                 myHand = self.results.multi_hand_landmarks[self.ind]
@@ -78,6 +80,8 @@ class handDetector():
                 current_hand = 'Right'
             elif current_hand == "Right":
                 current_hand = "Left"
+            self.current_hand = current_hand
+
         if len(myhands) == 2:
             if self.fingersUp() == [1,1,1,1,1]:
                 self.counter +=1
@@ -85,7 +89,7 @@ class handDetector():
                 self.counter -= 1
         elif self.counter > 0:
             self.counter -=1
-        print("Counter", self.counter)
+
         return self.lmList, current_hand, self.counter
 
     def fingersUp(self):
@@ -93,10 +97,16 @@ class handDetector():
         if len(self.lmList) > 0:
             fingers = []
             # Thumb
-            if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
-                fingers.append(1)
-            else:
-                fingers.append(0)
+            if self.current_hand == 'Right':
+                if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+                    fingers.append(1)
+                else:
+                    fingers.append(0)
+            if self.current_hand == 'Left':
+                if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+                    fingers.append(0)
+                else:
+                    fingers.append(1)
 
             # Fingers
             for id in range(1, 5):
@@ -142,7 +152,8 @@ def main():
         img = cv2.flip(img, 1)
         img = detector.findHands(img)
         lmList = detector.findPosition(img)
-        print("Out Lmlist => ", lmList, "\n")
+        fingers = detector.fingersUp(None)
+        print(fingers, "\n")
         if len(lmList) != 0:
             # print(lmList)
             pass
