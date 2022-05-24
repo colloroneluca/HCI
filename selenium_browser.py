@@ -16,7 +16,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
         self.browser.maximize_window()
 
     def get_resorce(self, url):
@@ -72,18 +72,18 @@ class Selenium_Browser():
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
             start_sound('start_speech.mp3')
-            f = open("thread_control.txt", "w")
+            '''f = open("thread_control.txt", "w")
             f.write("0")
             f.close()
 
             x = threading.Thread(target=start_micro, args=(lista,))
             x.start()
-            print("lista", lista)
+            print("lista", lista)'''
             audio = r.listen(source)
-            f = open("thread_control.txt", "w")
+            '''f = open("thread_control.txt", "w")
             f.write("1")
 
-            f.close()
+            f.close()'''
             start_sound('close_speech.mp3')
 
 

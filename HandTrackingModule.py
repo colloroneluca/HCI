@@ -143,7 +143,7 @@ def main():
 
     pTime = 0
     cTime = 0
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     print("acquired video ")
     detector = handDetector(maxHands=2, dominant='Right')
     print("created detector")

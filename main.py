@@ -89,13 +89,25 @@ class hand_gesture_browser():
             autopy.mouse.click(autopy.mouse.Button.RIGHT)
             self.last_right_click_time = time.time()
 
-    def get_click(self, fingers, img, b):
+    def get_click(self, fingers, img, b, coords, plocX, plocY, wScreen):
         #print("In get_click")
+
         # 9. Find distance between fingers
         length, img, lineInfo = detector.findDistance(8, 4, img)
         # print("Distance between click fingers:", length)
 
         # if self.clicked == True:
+        #print("PlocY ", plocY)
+        #print("Top ", coords.top + coords.height)
+        '''print("A ", str(int(coords.left + coords.width)), str(coords.top))
+        print("B ", str(int(wScreen - coords.width)), " ", str(coords.top))
+        print("C ", str(int(wScreen - coords.width)), " ", str(int(coords.top + coords.height)))
+        print("D ", str(int(coords.left + coords.width)), " ", str(int(coords.top + coords.height)))'''
+
+        a1, a2 = int(coords.left + coords.width), coords.top
+        b1, b2 = int(wScreen - coords.width), coords.top
+        c1, c2 = int(wScreen - coords.width), int(coords.top + coords.height-50)
+        d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height-50)
 
         if length < 50 and time.time() - self.last_click_time > 1.5:
 
@@ -105,13 +117,29 @@ class hand_gesture_browser():
                 b.check_input_cell()
                 self.last_click_time = time.time()
                 self.clicked = 0
+                print("clicked")
+                self.getSearchBarClick(plocX, plocY, a1, a2, b1, b2, c1, c2, d1, d2, b)
         else:
             if self.clicked>0:
                 self.clicked-=1
         #print("Click semaphore", self.clicked)
 
+    def getSearchBarClick(self, plocX, plocY, ax, ay, bx, by, cx, cy, dx, dy, driver):
+        print("checking...")
+        print()
+        print("ploc", (plocX,plocY))
+        print("a", ax, ay, "b",bx, by,"c", cx, cy,"d", dx, dy)
+        if plocX > ax and plocY < ay \
+            and plocX > dx and plocY > dy \
+            and plocX < bx and plocY < by \
+            and plocX < cx and plocY > cy:
+            print("EVVIVA")
+            text = driver.get_speech()
+            pyautogui.write(text)
+
+
     def get_screenshot(self, img, b):
-        length, img, lineInfo = detector.findDistance(8, 4, img)
+        length, img, lineInfo = detector.findDistance(4, 20, img)
         if length < 50 and time.time() - self.last_click_time > 1.5:
             self.last_click_time = time.time()
             b.get_browser_screenshot()
@@ -126,7 +154,10 @@ class hand_gesture_browser():
         clocX = plocX + (x3 - plocX) / smoothening
         clocY = plocY + (y3 - plocY) / smoothening
         # 7. Move Mouse
-        autopy.mouse.move(wScr - clocX, clocY)
+        try:
+            autopy.mouse.move(wScr - clocX, clocY)
+        except:
+            pass
         cv2.circle(img, (x1, y1), 15, (255, 0, 255), cv2.FILLED)
         plocX, plocY = clocX, clocY
         return plocX, plocY
@@ -185,6 +216,9 @@ class hand_gesture_browser():
         b.launch_browser()
         b.open_tab('https://www.youtube.com/')
         b.open_tab('https://www.ebay.it/')
+        time.sleep(5)
+        coords = pyautogui.locateOnScreen("findme.png")
+        print("Cordinate ", coords)
         time.sleep(1)
         b.script()
         # print(wScr, hScr)
@@ -227,7 +261,7 @@ class hand_gesture_browser():
                 elif fingers == [1, 1, 0, 0, 1]:
                     self.get_screenshot(img, b)
                 elif fingers[0] == 1 and fingers[1] == 1 and fingers[2]==0:
-                    self.get_click(fingers, img, b)
+                    self.get_click(fingers, img, b, coords, plocX, plocY, wScr)
                 elif fingers == [1,1,1,0,0]:
                     self.get_right_click(img)
                 elif fingers == [0, 1, 0, 0, 0]:
@@ -250,11 +284,11 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = True #If true the program starts in background: raise 2 hands to start it
+    background = False #If true the program starts in background: raise 2 hands to start it
     use_face_recognition = False
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     print("CAP", cap)
     user = {
         "id": 1,
