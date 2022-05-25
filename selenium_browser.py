@@ -16,7 +16,8 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+
         self.browser.maximize_window()
 
     def get_resorce(self, url):
@@ -58,12 +59,12 @@ class Selenium_Browser():
 
     def check_input_cell(self):
         input_cells = self.browser.find_elements_by_xpath('//input[@type="text" or @type="password"] | //textarea')
-
+        active_element = self.browser.switch_to.active_element
         if self.browser.switch_to.active_element in input_cells:
             self.browser.switch_to.active_element.clear()
             # start speech recognizer
             speech = self.get_speech()
-            self.browser.switch_to.active_element.send_keys(speech)
+            active_element.send_keys(speech)
         return
 
     def get_speech(self):
@@ -71,32 +72,34 @@ class Selenium_Browser():
         r = sr.Recognizer()
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
-            start_sound('start_speech.mp3')
-            '''f = open("thread_control.txt", "w")
+            start_sound('start_speech.mp3', 1.3)
+            f = open("thread_control.txt", "w")
             f.write("0")
             f.close()
 
             x = threading.Thread(target=start_micro, args=(lista,))
             x.start()
-            print("lista", lista)'''
-            audio = r.listen(source)
-            '''f = open("thread_control.txt", "w")
+            dest = None
+            while dest == None:
+
+                audio = r.listen(source)
+                try:
+                    dest = r.recognize_google(audio)
+                    print("You have said : " + dest)
+                except Exception as e:
+                    print("Error : " + str(e))
+                    dest = None
+            f = open("thread_control.txt", "w")
             f.write("1")
 
-            f.close()'''
-            start_sound('close_speech.mp3')
+            f.close()
+            start_sound('close_speech.mp3', 1.3)
 
 
 
 
 
 
-            try:
-                dest = r.recognize_google(audio)
-                print("You have said : " + dest)
-            except Exception as e:
-                print("Error : " + str(e))
-                dest = ''
         return dest
 
     def get_browser_screenshot(self):
@@ -105,11 +108,6 @@ class Selenium_Browser():
         self.browser.save_screenshot(screenshot_name)
         print("{} saved!!!".format(screenshot_name))
 
-    def script(self):
-        """js = 'alert("Hello World")'
-        x = open('keyboard/index.js').read()
-        self.browser.execute_script(x)"""
-        pass
 
     def get_html(self, url):
         self.browser.get("https://en.wikipedia.org")
@@ -123,6 +121,7 @@ class Selenium_Browser():
 
 if __name__ == "__main__":
     b = Selenium_Browser()
+
     b.launch_browser()
     b.get_resorce('https://www.google.com/')
     b.open_tab('https://www.google.com/')

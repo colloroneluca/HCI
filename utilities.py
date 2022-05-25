@@ -5,13 +5,17 @@ from micro import microphone
 import threading
 import time
 
-def play(sound_):
+import pygame
 
-    playsound(sound_)
 
-def start_sound(sound):
+def play(sound_, vol):
+    sound = pygame.mixer.Sound(sound_)
+    sound.set_volume(vol)
+    sound.play()
 
-    x = threading.Thread(target=play, args=(sound,))
+def start_sound(sound, vol=1):
+
+    x = threading.Thread(target=play, args=(sound,vol))
     x.start()
 
 
