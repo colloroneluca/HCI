@@ -59,7 +59,7 @@ class FaceRecognition:
 
     def recognition(self):
 
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(2)
         t_end = time.time() + 5
         prediction_list = []
         while time.time() < t_end:
@@ -116,7 +116,7 @@ class FaceRecognition:
 
         self.saveNewUser(last_id + 1, username, dominant_hand)
 
-        cam = cv2.VideoCapture(0)
+        cam = cv2.VideoCapture(2)
         img_counter = 0
         images = []
         count = 0

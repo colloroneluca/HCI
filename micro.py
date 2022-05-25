@@ -49,20 +49,22 @@ class microphone():
         self.root.overrideredirect(1)
         anim = MyLabel(self.root, 'micro.gif')
         anim.pack()
-
         self.root.after(100, self.check)
         self.root.mainloop()
+
     def check(self):
         f = open("thread_control.txt", "r")
         num = f.read()
-
         if num == "1":
             self.destroier()
         self.root.after(100, self.check)
     def destroier(self):
         print("destroing")
-        self.root.destroy()
-
+        try:
+            self.root.destroy()
+        except:
+            print("destroying again")
+            self.destroier()
 
 
 if __name__ == "__main__":

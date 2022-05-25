@@ -17,7 +17,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
 
         self.browser.maximize_window()
 
@@ -40,7 +40,6 @@ class Selenium_Browser():
     def switch_to_tab(self,direction):
         current_tab = self.get_current_tab()
         if direction == 'left2right':
-
             try:
                 self.browser.switch_to.window(self.browser.window_handles[current_tab+1])
             except:
@@ -81,20 +80,19 @@ class Selenium_Browser():
             x = threading.Thread(target=start_micro, args=(lista,))
             x.start()
             dest = None
-            while dest == None:
+            audio = r.listen(source)
+            try:
+                dest = r.recognize_google(audio)
+                print("You have said : " + dest)
+            except Exception as e:
+                print("Error : " + str(e))
+                dest = None
 
-                audio = r.listen(source)
-                try:
-                    dest = r.recognize_google(audio)
-                    print("You have said : " + dest)
-                except Exception as e:
-                    print("Error : " + str(e))
-                    dest = None
             f = open("thread_control.txt", "w")
             f.write("1")
-
             f.close()
             start_sound('close_speech.mp3', 1.3)
+
         return dest
 
     def get_browser_screenshot(self):

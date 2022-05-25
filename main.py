@@ -36,6 +36,8 @@ class hand_gesture_browser():
         self.last_right_click_time = 0
         self.clicked = 0
         self.user = user
+        self.in_search_bar = False
+        self.old_text = 'https://www.youtube.com/'
         self.scroll_semaphore = 0
         self.main(cap, detector)
 
@@ -50,12 +52,11 @@ class hand_gesture_browser():
                 distance = ((hCam // 2 - 60) - lmlist[10][2])*0.04
             else:
                 distance = ((hCam // 2 + 60) - lmlist[10][2])*0.04
-            print("distance", distance)
-            pyautogui.scroll(distance)
 
+            pyautogui.scroll(distance)
         else:
             self.scroll_semaphore+=1
-        print("scroll semaphores", self.scroll_semaphore)
+
 
     def get_scroll(self, img, lmlist, wCam, hCam):
         #print("In get scroll")
@@ -97,7 +98,7 @@ class hand_gesture_browser():
             autopy.mouse.click(autopy.mouse.Button.RIGHT)
             self.last_right_click_time = time.time()
 
-    def get_click(self, fingers, img, b, coords, plocX, plocY, wScreen):
+    def get_click(self, fingers, img, b, coords, plocX, plocY, wScreen, a1, a2,b1,b2,c1,c2,d1,d2):
         #print("In get_click")
 
         # 9. Find distance between fingers
@@ -112,15 +113,12 @@ class hand_gesture_browser():
         print("C ", str(int(wScreen - coords.width)), " ", str(int(coords.top + coords.height)))
         print("D ", str(int(coords.left + coords.width)), " ", str(int(coords.top + coords.height)))'''
 
-        a1, a2 = int(coords.left + coords.width), coords.top
-        b1, b2 = int(wScreen - coords.width), coords.top
-        c1, c2 = int(wScreen - coords.width), int(coords.top + coords.height)
-        d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)
 
-        if length < 50 and time.time() - self.last_click_time > 1.5:
+
+        if length < 60 and time.time() - self.last_click_time > 1.5:
 
             self.clicked+=1
-            if self.clicked == 2:
+            if self.clicked == 3:
                 autopy.mouse.click()
                 b.check_input_cell()
                 self.last_click_time = time.time()
@@ -128,24 +126,34 @@ class hand_gesture_browser():
                 print("clicked")
 
                 self.getSearchBarClick(plocX, plocY, a1, a2, b1, b2, c1, c2, d1, d2, b)
+
         else:
+
             if self.clicked>0:
                 self.clicked-=1
         #print("Click semaphore", self.clicked)
 
     def getSearchBarClick(self, plocX, plocY, ax, ay, bx, by, cx, cy, dx, dy, driver):
 
-        print("checking...")
+        """print("checking...")
         print()
         print("ploc", (plocX,plocY))
-        print("a", ax, ay, "b",bx, by,"c", cx, cy,"d", dx, dy)
+        print("a", ax, ay, "b",bx, by,"c", cx, cy,"d", dx, dy)"""
         if plocX > ax and plocY > ay \
             and plocX > dx and plocY < dy \
             and plocX < bx and plocY > by \
             and plocX < cx and plocY < cy:
-            print("EVVIVA")
+            print("In search bar click")
             text = driver.get_speech()
-            pyautogui.write(text)
+            try:
+                for i in range(len(self.old_text)): #Find best way
+                    pyautogui.press('backspace')
+                pyautogui.write(text)
+                self.old_text = text
+            except:
+                print("error")
+
+
 
 
     def get_screenshot(self, img, b):
@@ -153,6 +161,7 @@ class hand_gesture_browser():
         if length < 50 and time.time() - self.last_click_time > 1.5:
             self.last_click_time = time.time()
             b.get_browser_screenshot()
+            start_sound("screenshot.mp3", 1)
 
     def get_mouse_movement(self, fingers, img, frameR, wCam, hCam, wScr, hScr, smoothening, plocX, plocY, x13, y13, x1,
                            y1):
@@ -201,7 +210,7 @@ class hand_gesture_browser():
 
 
     def close(self, b):
-        start_sound('close.mp3', 1.5)
+        start_sound('close.mp3', 2.5)
         time.sleep(3)
         b.save_user_tabs(self.user)
         exit()
@@ -225,10 +234,15 @@ class hand_gesture_browser():
         b = Selenium_Browser()
         b.launch_browser()
         b.get_user_tabs(self.user)
-        coords = pyautogui.locateOnScreen("refresh.png")
-        pyautogui.alert(text=str(coords))
+        coords = None
+        while coords is None:
+            coords = pyautogui.locateOnScreen("find_me3.png")
+        #pyautogui.alert(text=str(coords))
         print("Cordinate ", coords)
-
+        a1, a2 = int(coords.left + coords.width), coords.top
+        b1, b2 = int(wScr - coords.width), coords.top
+        c1, c2 = int(wScr - coords.width), int(coords.top + coords.height)
+        d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)
         # print(wScr, hScr)
 
         ############################
@@ -237,6 +251,7 @@ class hand_gesture_browser():
         # Main Loop
         #############################
         while True:
+
             # 1. Find hand Landmarks
             success, img = cap.read()
             img = detector.findHands(img)
@@ -264,12 +279,14 @@ class hand_gesture_browser():
                     time_since_tab_switch = time.time()
                     recovered = False
                 ###########################################################################
+
                 if fingers == [0, 0, 0, 0, 0]:
                     self.get_controlled_scroll(img, lmList, wCam, hCam)
                 elif fingers == [1, 1, 0, 0, 1]:
                     self.get_screenshot(img, b)
                 elif fingers[0] == 1 and fingers[1] == 1 and fingers[2]==0:
-                    self.get_click(fingers, img, b, coords, plocX, plocY, wScr)
+                    self.get_click(fingers, img, b, coords, plocX, plocY, wScr, a1, a2,b1,b2,c1,c2,d1,d2)
+
                 elif fingers == [1,1,1,0,0]:
                     self.get_right_click(img)
                 elif fingers == [0, 1, 0, 0, 0]:
@@ -277,6 +294,7 @@ class hand_gesture_browser():
                                                            smoothening, plocX, plocY, x13, y13 - 50, x1, y1)
                 if fingers != [0,0,0,0,0] and self.scroll_semaphore>=0:
                     self.scroll_semaphore-=1
+
             cTime = time.time()
             fps = 1 / (cTime - pTime)
             pTime = cTime
@@ -284,8 +302,9 @@ class hand_gesture_browser():
             cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3,
                         (255, 0, 0), 3)
             # 12. Display
-            cv2.imshow("Image", img)
-            cv2.waitKey(1)
+            #cv2.imshow("Image", img)
+            #cv2.waitKey(1)
+
 
 
 
@@ -302,13 +321,13 @@ if __name__ == '__main__':
     }
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     print("CAP", cap)
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     if background:
         background_startup(detector, cap)
     pygame.init()
     pygame.mixer.init()
-    start_sound('start.mp3', 1.5)
+    start_sound('start.mp3', 4.5)
     v = hand_gesture_browser(cap, detector, user)
 
