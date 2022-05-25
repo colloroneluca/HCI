@@ -199,13 +199,12 @@ class hand_gesture_browser():
         else:
             return None
 
-    def close(self):
+
+    def close(self, b):
         start_sound('close.mp3', 1.5)
         time.sleep(3)
+        b.save_user_tabs(self.user)
         exit()
-
-
-
 
     def main(self, cap, detector):
         ##########################
@@ -244,7 +243,7 @@ class hand_gesture_browser():
             img = detector.findHands(img)
             lmList, current_hand, counter = detector.findPosition(img)
             if counter > 50:
-                self.close()
+                self.close(b)
 
             # 2. Get the tip of the index and middle fingers
             if len(lmList) != 0:
@@ -294,11 +293,11 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = False #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = False
+    background = True #If true the program starts in background: raise 2 hands to start it
+    use_face_recognition = True
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     print("CAP", cap)
     user = {
         "id": 1,

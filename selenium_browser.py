@@ -1,3 +1,4 @@
+import json
 import threading
 import pyperclip
 import selenium
@@ -118,6 +119,24 @@ class Selenium_Browser():
         time.sleep(5)
         self.browser.get("https://facebook.com")
         time.sleep(5)
+
+    def save_user_tabs(self, user):
+        tabs_num = len(self.browser.window_handles)
+        tabs = []
+        for x in range(tabs_num):
+            self.browser.switch_to.window(self.browser.window_handles[x])
+            tabs.append(self.browser.current_url)
+
+        with open('users.json', 'r+') as f:
+            users = json.load(f)
+
+        for x in users:
+            if user["id"] == x["id"]:
+                users[users.index(x)]["tabs"] = tabs
+
+        with open('users.json', 'w') as f:
+            json.dump(users, f, indent=4, separators=(',', ': '))
+
 
 if __name__ == "__main__":
     b = Selenium_Browser()
