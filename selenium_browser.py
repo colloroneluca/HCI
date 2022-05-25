@@ -17,7 +17,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
 
         self.browser.maximize_window()
 
@@ -95,12 +95,6 @@ class Selenium_Browser():
 
             f.close()
             start_sound('close_speech.mp3', 1.3)
-
-
-
-
-
-
         return dest
 
     def get_browser_screenshot(self):
@@ -108,7 +102,6 @@ class Selenium_Browser():
         screenshot_name = "BrowserScreenshot/screenshot." + current_date_time + ".png"
         self.browser.save_screenshot(screenshot_name)
         print("{} saved!!!".format(screenshot_name))
-
 
     def get_html(self, url):
         self.browser.get("https://en.wikipedia.org")
@@ -125,7 +118,8 @@ class Selenium_Browser():
         tabs = []
         for x in range(tabs_num):
             self.browser.switch_to.window(self.browser.window_handles[x])
-            tabs.append(self.browser.current_url)
+            if self.browser.current_url != "data:,":
+                tabs.append(self.browser.current_url)
 
         with open('users.json', 'r+') as f:
             users = json.load(f)
@@ -137,10 +131,15 @@ class Selenium_Browser():
         with open('users.json', 'w') as f:
             json.dump(users, f, indent=4, separators=(',', ': '))
 
+    def get_user_tabs(self, user):
+        self.open_tab("https://www.google.com/")
+        for tab in user["tabs"]:
+            if tab != "https://www.google.com/":
+                self.open_tab(tab)
+
 
 if __name__ == "__main__":
     b = Selenium_Browser()
-
     b.launch_browser()
     b.get_resorce('https://www.google.com/')
     b.open_tab('https://www.google.com/')

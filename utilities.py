@@ -43,7 +43,10 @@ def start_recognition():
         user = app.recognition()
 
         # 3. Check if the user is registered
-        if user["username"] == "Unknown":
+        if user is None:
+            print("Please stay in front of the camera!!")
+            time.sleep(5)
+        elif user["username"] == "Unknown":
             response = input("Seems it is the first time you use this application, do you want to register? (y/n)")
             if response == "y":
                 user = app.addNewUser()
@@ -51,9 +54,6 @@ def start_recognition():
                 # run as default user or exit
                 print()
             break
-        elif user["username"] == "None":
-            print("Please stay in front the camera!!")
-            time.sleep(5)
         else:
             print("welcome back ", str(user["username"]), "!!!")
             break

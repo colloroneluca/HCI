@@ -6,25 +6,32 @@
     {
         "id": 1,
         "username": "Valerio",
-        "dominant_hand": "sx",
-        "tabs": []
+        "dominant": "Right",
+        "tabs": [
+            "data:,"
+        ]
     },
     {
         "id": 2,
         "username": "Pier",
-        "dominant_hand": "dx",
+        "dominant": "Left",
         "tabs": []
     },
     {
         "id": 3,
         "username": "Marco",
-        "dominant_hand": "dx",
-        "tabs": []
+        "dominant": "Right",
+        "tabs": [
+            "https://www.google.com/",
+            "https://www.asroma.com/",
+            "https://www.ebay.it/",
+            "https://www.nike.com/it/"
+        ]
     },
     {
         "id": 4,
         "username": "Luca",
-        "dominant_hand": "dx",
+        "dominant": "Right",
         "tabs": []
     }
 ]

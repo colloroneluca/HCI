@@ -224,10 +224,9 @@ class hand_gesture_browser():
         time_since_tab_switch = time.time()
         b = Selenium_Browser()
         b.launch_browser()
-        b.open_tab('https://www.youtube.com/')
-        b.open_tab('https://www.ebay.it/')
-        time.sleep(1)
-        coords = pyautogui.locateOnScreen("find_me3.png")
+        b.get_user_tabs(self.user)
+        coords = pyautogui.locateOnScreen("refresh.png")
+        pyautogui.alert(text=str(coords))
         print("Cordinate ", coords)
 
         # print(wScr, hScr)
@@ -295,16 +294,16 @@ import  threading
 if __name__ == '__main__':
     background = True #If true the program starts in background: raise 2 hands to start it
     use_face_recognition = True
-    if use_face_recognition:
-        user = start_recognition()
-    cap = cv2.VideoCapture(0)
-    print("CAP", cap)
     user = {
         "id": 1,
         "username": "Marco",
         "dominant": "Right",
         "tabs": []
     }
+    if use_face_recognition:
+        user = start_recognition()
+    cap = cv2.VideoCapture(0)
+    print("CAP", cap)
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     if background:
         background_startup(detector, cap)
