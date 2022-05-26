@@ -10,6 +10,7 @@ import time
 import numpy as np
 import pyautogui
 import pygame
+import selenium
 from os.path import exists
 from RecognitionClass import FaceRecognition
 from keyboard import keyboard
@@ -49,9 +50,9 @@ class hand_gesture_browser():
             if hCam // 2 - 60 <= lmlist[10][2] <= hCam // 2 + 60:
                 return
             if lmlist[10][2] < hCam // 2 - 60:
-                distance = ((hCam // 2 - 60) - lmlist[10][2])*0.04
+                distance = ((hCam // 2 - 30) - lmlist[10][2])*0.04
             else:
-                distance = ((hCam // 2 + 60) - lmlist[10][2])*0.04
+                distance = ((hCam // 2 + 30) - lmlist[10][2])*0.04
 
             pyautogui.scroll(distance)
         else:
@@ -94,7 +95,7 @@ class hand_gesture_browser():
 
         length, img, lineInfo = detector.findDistance(12, 4, img)
         #print("right len", length)
-        if length < 50 and time.time() - self.last_right_click_time > 1.5:
+        if length < 60 and time.time() - self.last_right_click_time > 1.5:
             autopy.mouse.click(autopy.mouse.Button.RIGHT)
             self.last_right_click_time = time.time()
 
@@ -115,9 +116,9 @@ class hand_gesture_browser():
 
 
 
-        if length < 60 and time.time() - self.last_click_time > 1.5:
+        if length < 50 and time.time() - self.last_click_time > 1.5:
             self.clicked+=1
-            if self.clicked == 3:
+            if self.clicked == 2:
                 autopy.mouse.click()
                 b.check_input_cell()
                 self.last_click_time = time.time()
@@ -216,94 +217,100 @@ class hand_gesture_browser():
         exit()
 
     def main(self, cap, detector):
-        ##########################
-        detector.counter = 0
-        wCam, hCam = 640, 480
-        frameR = 110  # Frame Reduction
-        smoothening = 7
-        pTime = 0
-        plocX, plocY = 0, 0
-        clocX, clocY = 0, 0
-        cap.set(3, wCam)
-        cap.set(4, hCam)
-        wScr, hScr = autopy.screen.size()
-        acquired = False
-        recovered = True
-        time_to_wait_after_tab_switch = 1.5
-        time_since_tab_switch = time.time()
-        b = Selenium_Browser()
-        b.launch_browser()
-        b.get_user_tabs(self.user)
-        coords = None
-        while coords is None:
-            coords = pyautogui.locateOnScreen("find_me3.png")
-        #pyautogui.alert(text=str(coords))
-        print("Cordinate ", coords)
-        a1, a2 = int(coords.left + coords.width), coords.top
-        b1, b2 = int(wScr - coords.width), coords.top
-        c1, c2 = int(wScr - coords.width), int(coords.top + coords.height)
-        d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)
-        # print(wScr, hScr)
+        try:
+            ##########################
+            detector.counter = 0
+            wCam, hCam = 640, 480
+            frameR = 120  # Frame Reduction
+            smoothening = 7
+            pTime = 0
+            plocX, plocY = 0, 0
+            clocX, clocY = 0, 0
+            cap.set(3, wCam)
+            cap.set(4, hCam)
+            wScr, hScr = autopy.screen.size()
+            acquired = False
+            recovered = True
+            time_to_wait_after_tab_switch = 1.5
+            time_since_tab_switch = time.time()
+            b = Selenium_Browser()
+            b.launch_browser()
+            b.get_user_tabs(self.user)
+            coords = None
+            time.sleep(1)
+            while coords is None:
+                coords = pyautogui.locateOnScreen("find_me3.png")
+                print(coords)
 
-        ############################
+            #pyautogui.alert(text=str(coords))
+            print("Cordinate ", coords)
+            a1, a2 = int(coords.left + coords.width), coords.top
+            b1, b2 = int(wScr - coords.width), coords.top
+            c1, c2 = int(wScr - coords.width), int(coords.top + coords.height)
+            d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)
+            # print(wScr, hScr)
 
-        #############################
-        # Main Loop
-        #############################
-        while True:
+            ############################
 
-            # 1. Find hand Landmarks
-            success, img = cap.read()
-            img = detector.findHands(img)
-            lmList, current_hand, counter = detector.findPosition(img)
-            if counter > 50:
-                self.close(b)
+            #############################
+            # Main Loop
+            #############################
+            while True:
 
-            # 2. Get the tip of the index and middle fingers
-            if len(lmList) != 0:
-                x1, y1 = lmList[8][1:]
-                x13, y13 = lmList[13][1:]
-                x2, y2 = lmList[12][1:]
-                fingers = detector.fingersUp()
+                # 1. Find hand Landmarks
+                success, img = cap.read()
+                img = detector.findHands(img)
+                lmList, current_hand, counter = detector.findPosition(img)
+                if counter > 50:
+                    self.close(b)
 
-                cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR),
-                              (255, 0, 255), 2)
+                # 2. Get the tip of the index and middle fingers
+                if len(lmList) != 0:
+                    x1, y1 = lmList[8][1:]
+                    x13, y13 = lmList[13][1:]
+                    x2, y2 = lmList[12][1:]
+                    fingers = detector.fingersUp()
 
-                movement = self.get_movement(lmList, fingers, acquired)
+                    cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam - frameR),
+                                  (255, 0, 255), 2)
 
-                ###############################MOVE######################################
-                if time.time() - time_since_tab_switch > time_to_wait_after_tab_switch:
-                    recovered = True
-                if movement != None and recovered:
-                    b.switch_to_tab(movement)
-                    time_since_tab_switch = time.time()
-                    recovered = False
-                ###########################################################################
+                    movement = self.get_movement(lmList, fingers, acquired)
 
-                if fingers == [0, 0, 0, 0, 0]:
-                    self.get_controlled_scroll(img, lmList, wCam, hCam)
-                elif fingers == [1, 1, 0, 0, 1]:
-                    self.get_screenshot(img, b)
-                elif fingers[0] == 1 and fingers[1] == 1 and fingers[2]==0:
-                    self.get_click(fingers, img, b, coords, plocX, plocY, wScr, a1, a2,b1,b2,c1,c2,d1,d2)
+                    ###############################MOVE######################################
+                    if time.time() - time_since_tab_switch > time_to_wait_after_tab_switch:
+                        recovered = True
+                    if movement != None and recovered:
+                        b.switch_to_tab(movement)
+                        time_since_tab_switch = time.time()
+                        recovered = False
+                    ###########################################################################
 
-                elif fingers == [1,1,1,0,0]:
-                    self.get_right_click(img)
-                elif fingers == [0, 1, 0, 0, 0]:
-                    plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
-                                                           smoothening, plocX, plocY, x13, y13 - 50, x1, y1)
-                if fingers != [0,0,0,0,0] and self.scroll_semaphore>=0:
-                    self.scroll_semaphore-=1
+                    if fingers == [0, 0, 0, 0, 0]:
+                        self.get_controlled_scroll(img, lmList, wCam, hCam)
+                    elif fingers == [1, 1, 0, 0, 1]:
+                        self.get_screenshot(img, b)
+                    elif fingers[0] == 1 and fingers[1] == 1 and fingers[2]==0:
+                        self.get_click(fingers, img, b, coords, plocX, plocY, wScr, a1, a2,b1,b2,c1,c2,d1,d2)
 
-            cTime = time.time()
-            fps = 1 / (cTime - pTime)
-            pTime = cTime
-            img = cv2.flip(img, 1)
-            cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3,
-                        (255, 0, 0), 3)
-            # 12. Display
-            #cv2.imshow("Image", img)
-            #cv2.waitKey(1)
+                    elif fingers == [1,1,1,0,0]:
+                        self.get_right_click(img)
+                    elif fingers == [0, 1, 0, 0, 0]:
+                        plocX, plocY = self.get_mouse_movement(fingers, img, frameR, wCam, hCam, wScr, hScr,
+                                                               smoothening, plocX, plocY, x13, y13 - 50, x1, y1)
+                    if fingers != [0,0,0,0,0] and self.scroll_semaphore>=0:
+                        self.scroll_semaphore-=1
+
+                cTime = time.time()
+                fps = 1 / (cTime - pTime)
+                pTime = cTime
+                img = cv2.flip(img, 1)
+                cv2.putText(img, str(int(fps)), (20, 50), cv2.FONT_HERSHEY_PLAIN, 3,
+                            (255, 0, 0), 3)
+                # 12. Display
+                #cv2.imshow("Image", img)
+                #cv2.waitKey(1)
+        except selenium.common.exceptions.NoSuchWindowException:
+            b.switch_to_tab("right2left", closing = True)
 
 
 
@@ -311,23 +318,26 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = False #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = False
+    background = True #If true the program starts in background: raise 2 hands to start it
+    use_face_recognition = True
+    detector = htm.handDetector(maxHands=2, dominant='Right')
+    cap = cv2.VideoCapture(2)
+    if background:
+        background_startup(detector, cap)
     user = {
         "id": 1,
         "username": "Marco",
         "dominant": "Right",
         "tabs": []
     }
+    print("CAP", cap)
+    cap.release()
     if use_face_recognition:
         user = start_recognition()
     cap = cv2.VideoCapture(2)
-    print("CAP", cap)
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
-    if background:
-        background_startup(detector, cap)
     pygame.init()
     pygame.mixer.init()
-    start_sound('start.mp3', 4.5)
+    start_sound('start.mp3', 10.5)
     v = hand_gesture_browser(cap, detector, user)
 

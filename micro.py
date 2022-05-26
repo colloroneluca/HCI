@@ -59,11 +59,11 @@ class microphone():
             self.destroier()
         self.root.after(100, self.check)
     def destroier(self):
-        print("destroing")
+
         try:
             self.root.destroy()
         except:
-            print("destroying again")
+
             self.destroier()
 
 

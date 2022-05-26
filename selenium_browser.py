@@ -20,6 +20,7 @@ class Selenium_Browser():
         self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
 
         self.browser.maximize_window()
+        self.browser.get("https://www.google.com/")
 
     def get_resorce(self, url):
         self.browser.get(url)
@@ -37,7 +38,10 @@ class Selenium_Browser():
         index = tabs.index(current_tab)
         return index
 
-    def switch_to_tab(self,direction):
+    def switch_to_tab(self,direction, closing=False):
+        if closing:
+            print(self.browser.window_handles)
+            self.browser.switch_to.window(self.browser.window_handles[-1])
         current_tab = self.get_current_tab()
         if direction == 'left2right':
             try:
@@ -76,18 +80,17 @@ class Selenium_Browser():
             f = open("thread_control.txt", "w")
             f.write("0")
             f.close()
-
             x = threading.Thread(target=start_micro, args=(lista,))
             x.start()
             dest = None
-            audio = r.listen(source)
-            try:
-                dest = r.recognize_google(audio)
-                print("You have said : " + dest)
-            except Exception as e:
-                print("Error : " + str(e))
-                dest = None
-
+            while dest == None:
+                audio = r.listen(source)
+                try:
+                    dest = r.recognize_google(audio)
+                    print("You have said : " + dest)
+                except Exception as e:
+                    print("Error : " + str(e))
+                    dest = None
             f = open("thread_control.txt", "w")
             f.write("1")
             f.close()
@@ -130,7 +133,7 @@ class Selenium_Browser():
             json.dump(users, f, indent=4, separators=(',', ': '))
 
     def get_user_tabs(self, user):
-        self.open_tab("https://www.google.com/")
+        self.open_tab("https://www.uniroma1.it/it/pagina-strutturale/studenti")
         for tab in user["tabs"]:
             if tab != "https://www.google.com/":
                 self.open_tab(tab)
