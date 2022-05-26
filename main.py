@@ -116,7 +116,6 @@ class hand_gesture_browser():
 
 
         if length < 60 and time.time() - self.last_click_time > 1.5:
-
             self.clicked+=1
             if self.clicked == 3:
                 autopy.mouse.click()
@@ -124,11 +123,9 @@ class hand_gesture_browser():
                 self.last_click_time = time.time()
                 self.clicked = 0
                 print("clicked")
-
                 self.getSearchBarClick(plocX, plocY, a1, a2, b1, b2, c1, c2, d1, d2, b)
 
         else:
-
             if self.clicked>0:
                 self.clicked-=1
         #print("Click semaphore", self.clicked)
@@ -145,13 +142,16 @@ class hand_gesture_browser():
             and plocX < cx and plocY < cy:
             print("In search bar click")
             text = driver.get_speech()
+
             try:
                 for i in range(len(self.old_text)): #Find best way
                     pyautogui.press('backspace')
                 pyautogui.write(text)
                 self.old_text = text
+
             except:
                 print("error")
+            self.last_click_time = time.time()
 
 
 
@@ -311,8 +311,8 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = True #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = True
+    background = False #If true the program starts in background: raise 2 hands to start it
+    use_face_recognition = False
     user = {
         "id": 1,
         "username": "Marco",
