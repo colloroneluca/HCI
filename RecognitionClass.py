@@ -1,4 +1,6 @@
 import json
+from tkinter import messagebox
+
 import cv2
 import numpy as np
 import face_recognition
@@ -6,6 +8,8 @@ import os
 import time
 from collections import Counter
 import copy
+import tkinter as tk
+from tkinter import *
 
 class FaceRecognition:
 
@@ -109,12 +113,51 @@ class FaceRecognition:
 
         # get the last id
         last_id = self.users[-1]['id']
-        # set the new user infos
-        username = input('\n enter username ==>  ')
 
-        dominant_hand = input('\n enter your dominant hand (sx, dx) ==>  ')
+        root = Tk()
+        root.title("Registration Form")
+        root.resizable(False, False)  # This code helps to disable windows from resizing
 
-        self.saveNewUser(last_id + 1, username, dominant_hand)
+        window_height = 300
+        window_width = 500
+
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        x_cordinate = int((screen_width / 2) - (window_width / 2))
+        y_cordinate = int((screen_height / 2) - (window_height / 2))
+
+        root.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+
+        username = StringVar()
+        dominant_hand = StringVar()
+
+        def check():
+            if str(entry_1.get()) != '' and str(entry_2.get()) == "Right" or str(entry_2.get()) == "Left":
+                root.destroy()
+            else:
+                messagebox.showerror("showerror", "Please enter the data in the correct format (Left, Right)")
+
+        label_0 = Label(root, text="Registration form", width=20, font=("bold", 20))
+        label_0.place(x=90, y=20)
+
+        label_1 = Label(root, text="Username", width=20, font=("bold", 10))
+        label_1.place(x=173, y=70)
+
+        entry_1 = Entry(root, textvariable=username)
+        entry_1.place(x=193, y=100)
+
+        label_2 = Label(root, text="Dominant hand (Left, Right)", width=20, font=("bold", 10))
+        label_2.place(x=173, y=140)
+
+        entry_2 = Entry(root, textvariable=dominant_hand)
+        entry_2.place(x=193, y=170)
+
+        Button(root, text='Submit', width=20, bg='brown', fg='white', command=check).place(x=180, y=210)
+
+        root.mainloop()
+
+        self.saveNewUser(last_id + 1, username.get(), dominant_hand.get())
 
         cam = cv2.VideoCapture(2)
         img_counter = 0
@@ -177,17 +220,6 @@ class FaceRecognition:
         for user in self.users:
             if user["username"] == username:
                 return user
-
-
-#app = FaceRecognition()
-
-'''images = app.getClassesImages()
-
-app.saveEncodings(app.findEncodings(images))'''
-
-
-
-
 
 
 
