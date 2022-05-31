@@ -158,7 +158,7 @@ class hand_gesture_browser():
 
 
     def get_screenshot(self, img, b):
-        length, img, lineInfo = detector.findDistance(4, 20, img)
+        length, img, lineInfo = detector.findDistance(4, 8, img)
         if length < 50 and time.time() - self.last_click_time > 1.5:
             self.last_click_time = time.time()
             b.get_browser_screenshot()
