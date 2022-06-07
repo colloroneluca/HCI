@@ -28,7 +28,7 @@ import HandTrackingModule as htm
 import time
 import autopy
 from selenium_browser import Selenium_Browser
-from utilities import start_micro, start_recognition, background_startup, start_sound, play
+from utilities import start_micro, start_recognition, background_startup, start_sound, play, getGesturesHelp
 from micro import microphone
 class hand_gesture_browser():
     def __init__(self, cap, detector, user):
@@ -238,17 +238,20 @@ class hand_gesture_browser():
             b.get_user_tabs(self.user)
             coords = None
             time.sleep(1)
-            while coords is None:
+            '''while coords is None:
                 coords = pyautogui.locateOnScreen("find_me3.png")
-                print(coords)
+                #print(coords)
 
             #pyautogui.alert(text=str(coords))
             print("Cordinate ", coords)
             a1, a2 = int(coords.left + coords.width), coords.top
             b1, b2 = int(wScr - coords.width), coords.top
             c1, c2 = int(wScr - coords.width), int(coords.top + coords.height)
-            d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)
+            d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)'''
             # print(wScr, hScr)
+
+            gesture_help_thread = threading.Thread(target=getGesturesHelp)
+            gesture_help_thread.start()
 
             ############################
 
@@ -318,10 +321,10 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = True #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = True
+    background = False #If true the program starts in background: raise 2 hands to start it
+    use_face_recognition = False
     detector = htm.handDetector(maxHands=2, dominant='Right')
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     if background:
         background_startup(detector, cap)
     user = {
@@ -334,7 +337,7 @@ if __name__ == '__main__':
     cap.release()
     if use_face_recognition:
         user = start_recognition()
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(0)
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     pygame.init()
     pygame.mixer.init()

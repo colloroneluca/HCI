@@ -63,7 +63,9 @@ class FaceRecognition:
 
     def recognition(self):
 
-        cap = cv2.VideoCapture(2)
+        cap = cv2.VideoCapture(0)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         t_end = time.time() + 5
         prediction_list = []
         while time.time() < t_end:
@@ -73,25 +75,27 @@ class FaceRecognition:
 
             facesCurFrame = face_recognition.face_locations(imgS)
             encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
+            if facesCurFrame:
+                for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
+                    matches = face_recognition.compare_faces(self.encodeListKnown, encodeFace)
+                    faceDis = face_recognition.face_distance(self.encodeListKnown, encodeFace)
+                    matchIndex = np.argmin(faceDis)
 
-            for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
-                matches = face_recognition.compare_faces(self.encodeListKnown, encodeFace)
-                faceDis = face_recognition.face_distance(self.encodeListKnown, encodeFace)
-                matchIndex = np.argmin(faceDis)
+                    if faceDis[matchIndex] < 0.5:
+                        userIndex = self.class_names[matchIndex].split(".")[1]
+                        name = self.users[int(userIndex)]['username']
+                    else:
+                        name = "Unknown"
 
-                if faceDis[matchIndex] < 0.5:
-                    userIndex = self.class_names[matchIndex].split(".")[1]
-                    name = self.users[int(userIndex)]['username']
-                else:
-                    name = "Unknown"
+                    prediction_list.append(name)
 
-                prediction_list.append(name)
-
-                y1, x2, y2, x1 = faceLoc
-                y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
-                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
-                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
+                    y1, x2, y2, x1 = faceLoc
+                    y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+                    cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
+                    cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
+            else:
+                cv2.putText(img, "Stay in front the camera", (55, 240), cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 2)
 
             cv2.imshow('Webcam', img)
             cv2.waitKey(1)
@@ -114,52 +118,11 @@ class FaceRecognition:
         # get the last id
         last_id = self.users[-1]['id']
 
-        root = Tk()
-        root.title("Registration Form")
-        root.resizable(False, False)  # This code helps to disable windows from resizing
+        username, dominant_hand = self.signIn()
 
-        window_height = 300
-        window_width = 500
+        self.saveNewUser(last_id + 1, username, dominant_hand)
 
-        screen_width = root.winfo_screenwidth()
-        screen_height = root.winfo_screenheight()
-
-        x_cordinate = int((screen_width / 2) - (window_width / 2))
-        y_cordinate = int((screen_height / 2) - (window_height / 2))
-
-        root.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
-
-        username = StringVar()
-        dominant_hand = StringVar()
-
-        def check():
-            if str(entry_1.get()) != '' and str(entry_2.get()) == "Right" or str(entry_2.get()) == "Left":
-                root.destroy()
-            else:
-                messagebox.showerror("showerror", "Please enter the data in the correct format (Left, Right)")
-
-        label_0 = Label(root, text="Registration form", width=20, font=("bold", 20))
-        label_0.place(x=90, y=20)
-
-        label_1 = Label(root, text="Username", width=20, font=("bold", 10))
-        label_1.place(x=173, y=70)
-
-        entry_1 = Entry(root, textvariable=username)
-        entry_1.place(x=193, y=100)
-
-        label_2 = Label(root, text="Dominant hand (Left, Right)", width=20, font=("bold", 10))
-        label_2.place(x=173, y=140)
-
-        entry_2 = Entry(root, textvariable=dominant_hand)
-        entry_2.place(x=193, y=170)
-
-        Button(root, text='Submit', width=20, bg='brown', fg='white', command=check).place(x=180, y=210)
-
-        root.mainloop()
-
-        self.saveNewUser(last_id + 1, username.get(), dominant_hand.get())
-
-        cam = cv2.VideoCapture(2)
+        cam = cv2.VideoCapture(0)
         img_counter = 0
         images = []
         count = 0
@@ -220,6 +183,108 @@ class FaceRecognition:
         for user in self.users:
             if user["username"] == username:
                 return user
+
+    def signIn(self):
+        root = Tk()
+        root.title("Registration Form")
+        root.resizable(False, False)  # This code helps to disable windows from resizing
+
+        window_height = 300
+        window_width = 500
+
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        x_cordinate = int((screen_width / 2) - (window_width / 2))
+        y_cordinate = int((screen_height / 2) - (window_height / 2))
+
+        root.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+
+        username = StringVar()
+        dominant_hand = StringVar()
+
+        def check():
+            if str(entry_1.get()) != '' and str(entry_2.get()) == "Right" or str(entry_2.get()) == "Left":
+                root.destroy()
+            else:
+                messagebox.showerror("Error", "Please enter the data in the correct format (Left, Right)")
+
+        label_0 = Label(root, text="Registration form", font=("bold", 20))
+        label_0.pack(side=TOP, pady=10)
+
+        label_1 = Label(root, text="Username", font=("bold", 12))
+        label_1.pack(side=TOP, ipady=10)
+
+        entry_1 = Entry(root, textvariable=username)
+        entry_1.pack(side=TOP, ipady=5,  pady=5)
+
+        label_2 = Label(root, text="Dominant hand (Left, Right)", font=("bold", 12))
+        label_2.pack(side=TOP, ipady=10)
+
+        entry_2 = Entry(root, textvariable=dominant_hand)
+        entry_2.pack(side=TOP, ipady=5, pady=5)
+
+        Button(root, text='Submit', width=20, bg='brown', fg='white', command=check).pack(side=TOP, pady=10)
+
+        root.mainloop()
+        return str(username.get()), str(dominant_hand.get())
+
+    def showErrorNoFaceDetected(self):
+        Tk().withdraw()
+        messagebox.showerror("Error", "Please stay in front the camera. Wait a few seconds and try again")
+        return
+
+    def showInfoNewAttempt(self):
+        Tk().withdraw()
+        messagebox.showerror("New Attempt", "Wait a few seconds and the camera will start again")
+        return
+
+    def askRegistration(self):
+        root = Tk()
+        var = IntVar()
+
+        def sel():
+            if str(var.get()) in ["1", "2", "3"]:
+                root.destroy()
+            else:
+                messagebox.showerror("Error", "Please select an option")
+
+        window_height = 300
+        window_width = 500
+
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        x_cordinate = int((screen_width / 2) - (window_width / 2))
+        y_cordinate = int((screen_height / 2) - (window_height / 2))
+
+        root.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+
+        label_0 = Label(root,
+                        text="Seems it is the first time you use this application \n "
+                             "do you want to register?",
+                        font=("bold", 15))
+        label_0.pack(side=TOP, ipady=10)
+
+        # Dictionary to create multiple buttons
+        values = {"YES  ": "1",
+                  "NO   ": "2",
+                  "RETRY": "3"}
+        # Loop is used to create multiple Radiobuttons
+        # rather than creating each button separately
+        for (text, value) in values.items():
+            Radiobutton(root, text=text, variable=var,
+                        value=value).pack(side=TOP, ipady=5)
+
+        Button(root, text='Submit', width=20, bg='brown', fg='white', command=sel).pack(side=TOP, pady=10)
+
+        label = Label(root)
+        label.pack()
+
+        root.mainloop()
+
+        return var.get()
+
 
 
 

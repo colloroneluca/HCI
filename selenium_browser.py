@@ -17,7 +17,7 @@ class Selenium_Browser():
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
 
         self.browser.maximize_window()
         self.browser.get("https://www.google.com/")
@@ -133,7 +133,7 @@ class Selenium_Browser():
             json.dump(users, f, indent=4, separators=(',', ': '))
 
     def get_user_tabs(self, user):
-        self.open_tab("https://www.uniroma1.it/it/pagina-strutturale/studenti")
+        #self.open_tab("https://www.uniroma1.it/it/pagina-strutturale/studenti")
         for tab in user["tabs"]:
             if tab != "https://www.google.com/":
                 self.open_tab(tab)

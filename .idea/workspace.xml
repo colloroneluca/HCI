@@ -20,7 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f149acf7-6318-48e3-8e1c-d544742f8dae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/GesturesImages/1_mouse_r.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GesturesImages/2_click_r.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GesturesImages/3_rightClick_r.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GesturesImages/4_scroll_r.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GesturesImages/5_tabSwitch_r.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GesturesImages/6_Screenshot_r.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RecognitionClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecognitionClass.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selenium_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/selenium_browser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,11 +49,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="Python.RecognitionClass">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rafmc\Desktop\HCI" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
     <configuration name="RecognitionClass" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HCI" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -112,8 +128,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.RecognitionClass" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.RecognitionClass" />
         <item itemvalue="Python.micro" />
       </list>
     </recent_temporary>
@@ -139,6 +155,8 @@
       <workItem from="1653474161498" duration="4717000" />
       <workItem from="1653640810724" duration="6802000" />
       <workItem from="1654007098951" duration="6000" />
+      <workItem from="1654592077280" duration="6236000" />
+      <workItem from="1654608854728" duration="3795000" />
     </task>
     <servers />
   </component>
@@ -162,42 +180,42 @@
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state x="385" y="139" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653640987474" />
-    <state width="1237" height="83" key="GridCell.Tab.0.bottom" timestamp="1653670482037">
+    <state width="1237" height="113" key="GridCell.Tab.0.bottom" timestamp="1654614798102">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state width="1237" height="83" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653670482037" />
-    <state width="1637" height="270" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132667" />
-    <state width="1237" height="164" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1653481953324" />
-    <state width="1237" height="83" key="GridCell.Tab.0.center" timestamp="1653670482036">
+    <state width="1237" height="61" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
+    <state width="1637" height="209" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280209" />
+    <state width="1237" height="113" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1654614798102" />
+    <state width="1237" height="113" key="GridCell.Tab.0.center" timestamp="1654614798082">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state width="1237" height="83" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653670482036" />
-    <state width="1637" height="270" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132666" />
-    <state width="1237" height="164" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1653481953324" />
-    <state width="1237" height="83" key="GridCell.Tab.0.left" timestamp="1653670482036">
+    <state width="1237" height="61" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
+    <state width="1637" height="209" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280209" />
+    <state width="1237" height="113" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1654614798082" />
+    <state width="1237" height="113" key="GridCell.Tab.0.left" timestamp="1654614798082">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state width="1237" height="83" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653670482036" />
-    <state width="1637" height="270" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132664" />
-    <state width="1237" height="164" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1653481953324" />
-    <state width="1237" height="83" key="GridCell.Tab.0.right" timestamp="1653670482036">
+    <state width="1237" height="61" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
+    <state width="1637" height="209" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280208" />
+    <state width="1237" height="113" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1654614798082" />
+    <state width="1237" height="113" key="GridCell.Tab.0.right" timestamp="1654614798099">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state width="1237" height="83" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653670482036" />
-    <state width="1637" height="270" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1653293132667" />
-    <state width="1237" height="164" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1653481953324" />
-    <state x="347" y="69" width="587" height="534" key="find.popup" timestamp="1653379149472">
+    <state width="1237" height="61" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
+    <state width="1637" height="209" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280209" />
+    <state width="1237" height="113" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1654614798099" />
+    <state x="347" y="69" width="587" height="534" key="find.popup" timestamp="1654609872532">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state x="347" y="69" width="587" height="534" key="find.popup/0.0.1280.672@0.0.1280.672" timestamp="1653379149472" />
+    <state x="347" y="69" width="587" height="534" key="find.popup/0.0.1280.672@0.0.1280.672" timestamp="1654609872532" />
     <state x="303" y="-1" width="672" height="678" key="search.everywhere.popup" timestamp="1653397103872">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state x="303" y="-1" width="672" height="678" key="search.everywhere.popup/0.0.1280.672@0.0.1280.672" timestamp="1653397103872" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1653482102866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HCI$RecognitionClass.coverage" NAME="RecognitionClass Coverage Results" MODIFIED="1653670482012" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HCI$RecognitionClass.coverage" NAME="RecognitionClass Coverage Results" MODIFIED="1654609808550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1654614743370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HCI$micro.coverage" NAME="micro Coverage Results" MODIFIED="1653395769050" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
