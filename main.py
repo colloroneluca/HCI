@@ -213,7 +213,8 @@ class hand_gesture_browser():
     def close(self, b):
         start_sound('close.mp3', 2.5)
         time.sleep(3)
-        b.save_user_tabs(self.user)
+        if self.user['username'] != "GuestUser":
+            b.save_user_tabs(self.user)
         exit()
 
     def main(self, cap, detector):
@@ -238,7 +239,7 @@ class hand_gesture_browser():
             b.get_user_tabs(self.user)
             coords = None
             time.sleep(1)
-            '''while coords is None:
+            while coords is None:
                 coords = pyautogui.locateOnScreen("find_me3.png")
                 #print(coords)
 
@@ -247,11 +248,11 @@ class hand_gesture_browser():
             a1, a2 = int(coords.left + coords.width), coords.top
             b1, b2 = int(wScr - coords.width), coords.top
             c1, c2 = int(wScr - coords.width), int(coords.top + coords.height)
-            d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)'''
+            d1, d2 = int(coords.left + coords.width), int(coords.top + coords.height)
             # print(wScr, hScr)
 
-            gesture_help_thread = threading.Thread(target=getGesturesHelp)
-            gesture_help_thread.start()
+            #gesture_help_thread = threading.Thread(target=getGesturesHelp)
+            #gesture_help_thread.start()
 
             ############################
 
@@ -322,7 +323,7 @@ import  threading
 
 if __name__ == '__main__':
     background = False #If true the program starts in background: raise 2 hands to start it
-    use_face_recognition = False
+    use_face_recognition = True
     detector = htm.handDetector(maxHands=2, dominant='Right')
     cap = cv2.VideoCapture(0)
     if background:
@@ -337,6 +338,7 @@ if __name__ == '__main__':
     cap.release()
     if use_face_recognition:
         user = start_recognition()
+        print(user)
     cap = cv2.VideoCapture(0)
     detector = htm.handDetector(maxHands=2, dominant=user['dominant'])
     pygame.init()

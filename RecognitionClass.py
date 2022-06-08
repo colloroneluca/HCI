@@ -167,7 +167,7 @@ class FaceRecognition:
             self.encodeListKnown.append(x)
         self.saveEncodings(self.encodeListKnown)
 
-        return {'id': int(last_id + 1), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []}
+        return {'id': int(last_id + 1), 'username': username, 'dominant': dominant_hand, 'tabs': []}
 
     def saveNewUser(self, face_id, username, dominant_hand):
         self.users.append({'id': int(face_id), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []})
@@ -188,9 +188,10 @@ class FaceRecognition:
         root = Tk()
         root.title("Registration Form")
         root.resizable(False, False)  # This code helps to disable windows from resizing
+        root.attributes('-topmost', 'true')
 
-        window_height = 300
-        window_width = 500
+        window_height = 420
+        window_width = 640
 
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
@@ -231,26 +232,29 @@ class FaceRecognition:
 
     def showErrorNoFaceDetected(self):
         Tk().withdraw()
-        messagebox.showerror("Error", "Please stay in front the camera. Wait a few seconds and try again")
+        messagebox.showerror("Error", "Please stay in front the camera. Press ok and wait a few seconds and try again")
         return
 
     def showInfoNewAttempt(self):
         Tk().withdraw()
-        messagebox.showerror("New Attempt", "Wait a few seconds and the camera will start again")
+        messagebox.showinfo("New Attempt", "Press ok and wait a few seconds and the camera will start again")
         return
 
     def askRegistration(self):
         root = Tk()
+        root.attributes('-topmost', 'true')
+
         var = IntVar()
 
         def sel():
+            print(var.get())
             if str(var.get()) in ["1", "2", "3"]:
                 root.destroy()
             else:
                 messagebox.showerror("Error", "Please select an option")
 
-        window_height = 300
-        window_width = 500
+        window_height = 420
+        window_width = 640
 
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()

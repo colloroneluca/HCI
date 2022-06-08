@@ -49,16 +49,15 @@ def start_recognition():
             app.showErrorNoFaceDetected()
             time.sleep(5)
         elif user["username"] == "Unknown":
-            response = app.signIn()
+            response = app.askRegistration()
             if response == 1:
                 user = app.addNewUser()
                 break
             elif response == 2:
-                # non vuole registrarsi
-                print()
-                break
-            app.showInfoNewAttempt()
-            time.sleep(3)
+                return {'id': None, 'username': 'GuestUser', 'dominant': 'Right', 'tabs': []}
+            else:
+                app.showInfoNewAttempt()
+                time.sleep(3)
         else:
             print("welcome back ", str(user["username"]), "!!!")
             break

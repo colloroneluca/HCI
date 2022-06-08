@@ -20,7 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f149acf7-6318-48e3-8e1c-d544742f8dae" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/selenium_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/selenium_browser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RecognitionClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecognitionClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +151,8 @@
       <workItem from="1654592077280" duration="6236000" />
       <workItem from="1654608854728" duration="3795000" />
       <workItem from="1654615008500" duration="10000" />
+      <workItem from="1654686716462" duration="1724000" />
+      <workItem from="1654701269322" duration="1985000" />
     </task>
     <servers />
   </component>
@@ -171,30 +176,30 @@
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state x="385" y="139" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1653640987474" />
-    <state width="1237" height="113" key="GridCell.Tab.0.bottom" timestamp="1654614798102">
+    <state width="1237" height="487" key="GridCell.Tab.0.bottom" timestamp="1654704498613">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="61" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
     <state width="1637" height="209" key="GridCell.Tab.0.bottom/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280209" />
-    <state width="1237" height="113" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1654614798102" />
-    <state width="1237" height="113" key="GridCell.Tab.0.center" timestamp="1654614798082">
+    <state width="1237" height="487" key="GridCell.Tab.0.bottom/0.0.1280.672@0.0.1280.672" timestamp="1654704498613" />
+    <state width="1237" height="487" key="GridCell.Tab.0.center" timestamp="1654704498613">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="61" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
     <state width="1637" height="209" key="GridCell.Tab.0.center/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280209" />
-    <state width="1237" height="113" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1654614798082" />
-    <state width="1237" height="113" key="GridCell.Tab.0.left" timestamp="1654614798082">
+    <state width="1237" height="487" key="GridCell.Tab.0.center/0.0.1280.672@0.0.1280.672" timestamp="1654704498613" />
+    <state width="1237" height="487" key="GridCell.Tab.0.left" timestamp="1654704498613">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="61" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
     <state width="1637" height="209" key="GridCell.Tab.0.left/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280208" />
-    <state width="1237" height="113" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1654614798082" />
-    <state width="1237" height="113" key="GridCell.Tab.0.right" timestamp="1654614798099">
+    <state width="1237" height="487" key="GridCell.Tab.0.left/0.0.1280.672@0.0.1280.672" timestamp="1654704498613" />
+    <state width="1237" height="487" key="GridCell.Tab.0.right" timestamp="1654704498613">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
     <state width="1237" height="61" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@0.0.1280.672" timestamp="1654596274328" />
     <state width="1637" height="209" key="GridCell.Tab.0.right/0.0.1280.672/1920.0.1680.1002@1920.0.1680.1002" timestamp="1654600280209" />
-    <state width="1237" height="113" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1654614798099" />
+    <state width="1237" height="487" key="GridCell.Tab.0.right/0.0.1280.672@0.0.1280.672" timestamp="1654704498613" />
     <state x="347" y="69" width="587" height="534" key="find.popup" timestamp="1654609872532">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
@@ -206,7 +211,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HCI$RecognitionClass.coverage" NAME="RecognitionClass Coverage Results" MODIFIED="1654609808550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1654614743370" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HCI$main.coverage" NAME="main Coverage Results" MODIFIED="1654704535758" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/HCI$micro.coverage" NAME="micro Coverage Results" MODIFIED="1653395769050" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
