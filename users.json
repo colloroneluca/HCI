@@ -2,40 +2,5 @@
     {
         "id": 0,
         "username": "Unknown"
-    },
-    {
-        "id": 1,
-        "username": "Valerio",
-        "dominant": "Right",
-        "tabs": [
-            "https://www.google.com/",
-            "https://www.uniroma1.it/it/pagina-strutturale/studenti"
-        ]
-    },
-    {
-        "id": 2,
-        "username": "Pier",
-        "dominant": "Left",
-        "tabs": []
-    },
-    {
-        "id": 3,
-        "username": "Marco",
-        "dominant": "Right",
-        "tabs": [
-            "https://www.google.com/",
-            "https://www.asroma.com/",
-            "https://www.ebay.it/",
-            "https://www.nike.com/it/"
-        ]
-    },
-    {
-        "id": 4,
-        "username": "Luca",
-        "dominant": "Right",
-        "tabs": [
-            "https://www.google.com/search?q=YouTube&oq=YouTube&aqs=chrome..69i57.6940j0j4&sourceid=chrome&ie=UTF-8",
-            "https://www.uniroma1.it/it/pagina-strutturale/studenti"
-        ]
     }
 ]

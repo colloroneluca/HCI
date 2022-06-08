@@ -62,53 +62,83 @@ class FaceRecognition:
         return encodeList
 
     def recognition(self):
+        if len(self.encodeListKnown) == 0:
+            cap = cv2.VideoCapture(0)
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+            t_end = time.time() + 5
+            while time.time() < t_end:
+                success, img = cap.read()
+                imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+                imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
-        cap = cv2.VideoCapture(0)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        t_end = time.time() + 5
-        prediction_list = []
-        while time.time() < t_end:
-            success, img = cap.read()
-            imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
-            imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
+                facesCurFrame = face_recognition.face_locations(imgS)
+                encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
+                if facesCurFrame:
+                    for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
 
-            facesCurFrame = face_recognition.face_locations(imgS)
-            encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
-            if facesCurFrame:
-                for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
-                    matches = face_recognition.compare_faces(self.encodeListKnown, encodeFace)
-                    faceDis = face_recognition.face_distance(self.encodeListKnown, encodeFace)
-                    matchIndex = np.argmin(faceDis)
-
-                    if faceDis[matchIndex] < 0.5:
-                        userIndex = self.class_names[matchIndex].split(".")[1]
-                        name = self.users[int(userIndex)]['username']
-                    else:
                         name = "Unknown"
 
-                    prediction_list.append(name)
+                        y1, x2, y2, x1 = faceLoc
+                        y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+                        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                        cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
+                        cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
+                else:
+                    cv2.putText(img, "Stay in front the camera", (55, 240), cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255),2)
+                cv2.imshow('Webcam', img)
+                cv2.waitKey(1)
+            cap.release()
+            cv2.destroyAllWindows()
+            return self.getUserFromUsername('Unknown')
 
-                    y1, x2, y2, x1 = faceLoc
-                    y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
-                    cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                    cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
-                    cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
-            else:
-                cv2.putText(img, "Stay in front the camera", (55, 240), cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 2)
-
-            cv2.imshow('Webcam', img)
-            cv2.waitKey(1)
-
-        cap.release()
-        cv2.destroyAllWindows()
-
-        c = Counter(prediction_list)
-        if prediction_list:
-            username = c.most_common(1)[0][0]
         else:
-            username = "None"
-        return self.getUserFromUsername(username)
+            cap = cv2.VideoCapture(0)
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+            t_end = time.time() + 5
+            prediction_list = []
+            while time.time() < t_end:
+                success, img = cap.read()
+                imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+                imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
+
+                facesCurFrame = face_recognition.face_locations(imgS)
+                encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrame)
+                if facesCurFrame:
+                    for encodeFace, faceLoc in zip(encodesCurFrame, facesCurFrame):
+                        matches = face_recognition.compare_faces(self.encodeListKnown, encodeFace)
+                        faceDis = face_recognition.face_distance(self.encodeListKnown, encodeFace)
+                        matchIndex = np.argmin(faceDis)
+
+                        if faceDis[matchIndex] < 0.5:
+                            userIndex = self.class_names[matchIndex].split(".")[1]
+                            name = self.users[int(userIndex)]['username']
+                        else:
+                            name = "Unknown"
+
+                        prediction_list.append(name)
+
+                        y1, x2, y2, x1 = faceLoc
+                        y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
+                        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                        cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
+                        cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
+                else:
+                    cv2.putText(img, "Stay in front the camera", (55, 240), cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 2)
+
+                cv2.imshow('Webcam', img)
+                cv2.waitKey(1)
+
+            cap.release()
+            cv2.destroyAllWindows()
+
+            c = Counter(prediction_list)
+            if prediction_list:
+                username = c.most_common(1)[0][0]
+            else:
+                username = "None"
+            return self.getUserFromUsername(username)
 
     def addNewUser(self):
 

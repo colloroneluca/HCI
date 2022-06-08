@@ -322,7 +322,7 @@ class hand_gesture_browser():
 import  threading
 
 if __name__ == '__main__':
-    background = False #If true the program starts in background: raise 2 hands to start it
+    background = True #If true the program starts in background: raise 2 hands to start it
     use_face_recognition = True
     detector = htm.handDetector(maxHands=2, dominant='Right')
     cap = cv2.VideoCapture(0)
