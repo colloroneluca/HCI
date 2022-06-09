@@ -177,7 +177,7 @@ class hand_gesture_browser():
             print(proc.name())
             # check whether the process name matches
             if proc.name() == PROCNAME:
-              
+
                 proc.kill()
         exit()
 

@@ -162,23 +162,20 @@ class hand_gesture_browser():
         else:
             return None
 
-
     def close(self, b):
         start_sound('close.mp3', 2.5)
         time.sleep(3)
         if self.user['username'] != "GuestUser":
             b.save_user_tabs(self.user)
-        b.quit()
         import psutil
-
-        PROCNAME = "python3.8"
+        b.browser.quit()
+        PROCNAME = "python3"
 
         for proc in psutil.process_iter():
-            print("In killing")
-            # check whether the process name matches
+
             print(proc.name())
+            # check whether the process name matches
             if proc.name() == PROCNAME:
-                print("FOUND")
                 proc.kill()
         exit()
 
