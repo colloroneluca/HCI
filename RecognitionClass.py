@@ -194,7 +194,7 @@ class FaceRecognition:
             pic = copy.copy(frame)
             for (x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 1)
-            cv2.putText(frame, "Press Space to take pcitures  " + str(self.num_pic) + "/6", (30, 30), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 255),
+            cv2.putText(frame, "Press Space to take pictures  " + str(self.num_pic) + "/6", (30, 30), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 255),
                         2)
 
 
@@ -303,6 +303,7 @@ class FaceRecognition:
 
     def askRegistration(self):
         root = Tk()
+        root.title("Registration request")
         root.attributes('-topmost', 'true')
 
         var = IntVar()

@@ -58,15 +58,15 @@ class thread_with_exception(threading.Thread):
             print('Exception raise failure')
         print("done")
 
-    def toggle(self):
-        if self.win.winfo_height() == 30:
-            self.win.geometry("100x780+{}+{}".format(self.screen_width - 100, 120))
-            self.button.config(bg='#333333')
-            self.button.config(fg='#ffffff')
-        else:
-            self.win.geometry("100x30+{}+{}".format(self.screen_width - 100, 120))
-            self.button.config(fg='#333333')
-            self.button.config(bg='#ffffff')
+    def button_hover(self, e):
+        self.win.geometry("100x750+{}+{}".format(self.screen_width - 100, 120))
+        self.button.config(bg='#333333')
+        self.button.config(fg='#ffffff')
+
+    def button_leave(self, e):
+        self.win.geometry("100x30+{}+{}".format(self.screen_width - 100, 120))
+        self.button.config(fg='#333333')
+        self.button.config(bg='#ffffff')
 
     def getGesturesHelp(self):
         print("in gesture")
@@ -85,7 +85,7 @@ class thread_with_exception(threading.Thread):
 
         print("after tk3")
         # Create a Button for toggle function
-        self.button = Button(self.win, text="GESTURES", height=1, command=self.toggle)
+        self.button = Button(self.win, text="GESTURES", height=1)
         self.button.config(font=('Verdana', 7))
         self.button.config(fg='#333333')
         self.button.config(bg='#ffffff')
@@ -93,6 +93,9 @@ class thread_with_exception(threading.Thread):
 
         self.button.config(compound='bottom')
         self.button.pack(fill=X)
+
+        self.button.bind("<Enter>", self.button_hover)
+        self.button.bind("<Leave>", self.button_leave)
 
         path = 'GesturesImages'
         print("after tk4")
