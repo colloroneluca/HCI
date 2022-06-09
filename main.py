@@ -168,6 +168,17 @@ class hand_gesture_browser():
         time.sleep(3)
         if self.user['username'] != "GuestUser":
             b.save_user_tabs(self.user)
+        import psutil
+        b.browser.quit()
+        PROCNAME = "python3"
+
+        for proc in psutil.process_iter():
+
+            print(proc.name())
+            # check whether the process name matches
+            if proc.name() == PROCNAME:
+              
+                proc.kill()
         exit()
 
     def main(self, cap, detector):
