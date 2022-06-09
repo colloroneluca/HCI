@@ -10,6 +10,25 @@ from collections import Counter
 import copy
 import tkinter as tk
 from tkinter import *
+#from utilities import start_sound
+from playsound import playsound
+import threading
+import time
+from tkinter import *
+import os
+from PIL import Image, ImageTk
+import pygame
+
+
+def play(sound_, vol):
+    sound = pygame.mixer.Sound(sound_)
+    sound.set_volume(vol)
+    sound.play()
+
+def start_sound(sound, vol=1):
+
+    x = threading.Thread(target=play, args=(sound,vol))
+    x.start()
 
 class FaceRecognition:
 
@@ -63,7 +82,7 @@ class FaceRecognition:
 
     def recognition(self):
         if len(self.encodeListKnown) == 0:
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(-1)
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
             t_end = time.time() + 5
@@ -85,6 +104,7 @@ class FaceRecognition:
                         cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
                         cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
                 else:
+
                     cv2.putText(img, "Stay in front the camera", (55, 240), cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255),2)
                 cv2.imshow('Webcam', img)
                 cv2.waitKey(1)
@@ -93,7 +113,7 @@ class FaceRecognition:
             return self.getUserFromUsername('Unknown')
 
         else:
-            cap = cv2.VideoCapture(0)
+            cap = cv2.VideoCapture(-1)
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
             t_end = time.time() + 5
@@ -125,7 +145,9 @@ class FaceRecognition:
                         cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
                         cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 255, 255), 1)
                 else:
-                    cv2.putText(img, "Stay in front the camera", (55, 240), cv2.FONT_HERSHEY_DUPLEX, 1.3, (0, 0, 255), 2)
+
+
+                    cv2.putText(img, "Stay in front the camera", (55, 260), cv2.FONT_HERSHEY_COMPLEX , 1.3, (0, 0, 255), 2)
 
                 cv2.imshow('Webcam', img)
                 cv2.waitKey(1)
@@ -141,7 +163,7 @@ class FaceRecognition:
             return self.getUserFromUsername(username)
 
     def addNewUser(self):
-
+        self.num_pic = 0
         # Define the detector
         detector = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -152,7 +174,7 @@ class FaceRecognition:
 
         self.saveNewUser(last_id + 1, username, dominant_hand)
 
-        cam = cv2.VideoCapture(0)
+        cam = cv2.VideoCapture(-1)
         img_counter = 0
         images = []
         count = 0
@@ -172,10 +194,15 @@ class FaceRecognition:
             pic = copy.copy(frame)
             for (x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 1)
+            cv2.putText(frame, "Press Space to take pcitures  " + str(self.num_pic) + "/6", (30, 30), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 255),
+                        2)
 
-            cv2.imshow("Registration - Please press SPACE to take picture", frame)
+
+            cv2.imshow("Registration", frame)
 
             k = cv2.waitKey(1)
+            if self.num_pic == 6:
+                break
             if k % 256 == 27:
                 # ESC pressed
                 print("Escape hit, closing...")
@@ -183,10 +210,14 @@ class FaceRecognition:
             elif k % 256 == 32:
                 # SPACE pressed
                 count += 1
+                self.num_pic +=1
                 img_name = 'ImagesAttendance/User.' + str(last_id + 1) + '.' + str(count) + ".png"
                 cv2.imwrite(img_name, pic)
                 images.append(pic)
                 print("{} written!".format(img_name))
+                pygame.init()
+                pygame.mixer.init()
+                start_sound("screenshot.mp3", 1)
                 img_counter += 1
         cam.release()
         cv2.destroyAllWindows()
@@ -200,7 +231,7 @@ class FaceRecognition:
         return {'id': int(last_id + 1), 'username': username, 'dominant': dominant_hand, 'tabs': []}
 
     def saveNewUser(self, face_id, username, dominant_hand):
-        self.users.append({'id': int(face_id), 'username': username, 'dominant_hand': dominant_hand, 'tabs': []})
+        self.users.append({'id': int(face_id), 'username': username, 'dominant': dominant_hand, 'tabs': []})
         with open(self.usersPath, 'w') as f:
             json.dump(self.users, f, indent=4, separators=(',', ': '))
 

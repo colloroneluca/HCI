@@ -9,15 +9,15 @@ import time
 from playsound import playsound
 import speech_recognition as sr
 from datetime import datetime
-from utilities import start_sound, start_micro
-
+from utilities import start_sound, start_micro, thread_with_exception
 class Selenium_Browser():
     def __init__(self):
         self.browser = None
+        self.i=2
         pass
 
     def launch_browser(self):
-        self.browser = webdriver.Chrome('chromedriver_win32/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
+        self.browser = webdriver.Chrome('chromedriver_linux64_Luca/chromedriver') #Luca = 'chromedriver_linux64_Luca/chromedriver'
 
         self.browser.maximize_window()
         self.browser.get("https://www.google.com/")
@@ -61,19 +61,24 @@ class Selenium_Browser():
         url = pyperclip.paste()
         return url
 
-    def check_input_cell(self):
+    def check_input_cell(self, obj):
+        gesture_help_thread = None
         input_cells = self.browser.find_elements_by_xpath('//input[@type="text" or @type="password"] | //textarea')
         active_element = self.browser.switch_to.active_element
         if self.browser.switch_to.active_element in input_cells:
             self.browser.switch_to.active_element.clear()
             # start speech recognizer
-            speech = self.get_speech()
-            active_element.send_keys(speech)
-        return
+            speech= self.get_speech(obj)
 
-    def get_speech(self):
+            active_element.send_keys(speech)
+
+        return gesture_help_thread
+
+    def get_speech(self, obj):
         lista = []
         r = sr.Recognizer()
+        obj.destroyed = True
+        del(obj)
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
             start_sound('start_speech.mp3', 1.3)
@@ -96,6 +101,7 @@ class Selenium_Browser():
             f.close()
             start_sound('close_speech.mp3', 1.3)
 
+
         return dest
 
     def get_browser_screenshot(self):
@@ -117,9 +123,10 @@ class Selenium_Browser():
     def save_user_tabs(self, user):
         tabs_num = len(self.browser.window_handles)
         tabs = []
+        open_tabs = user['tabs']
         for x in range(tabs_num):
             self.browser.switch_to.window(self.browser.window_handles[x])
-            if self.browser.current_url != "data:,":
+            if self.browser.current_url != "data:," and self.browser.current_url != 'https://www.google.com/' and self.browser.current_url != 'https://github.com/'  :
                 tabs.append(self.browser.current_url)
 
         with open('users.json', 'r+') as f:
@@ -133,9 +140,15 @@ class Selenium_Browser():
             json.dump(users, f, indent=4, separators=(',', ': '))
 
     def get_user_tabs(self, user):
-        self.open_tab("https://www.uniroma1.it/it/pagina-strutturale/studenti")
+        found = False
         for tab in user["tabs"]:
-            if tab != "https://www.google.com/":
+            if tab == 'https://github.com/':
+                found = True
+        if not found:
+            self.open_tab('https://github.com/')
+
+        for tab in user["tabs"]:
+            if tab != "https://www.google.com/" or tab!='https://github.com/':
                 self.open_tab(tab)
 
 
