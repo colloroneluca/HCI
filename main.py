@@ -162,7 +162,6 @@ class hand_gesture_browser():
         else:
             return None
 
-
     def close(self, b):
         start_sound('close.mp3', 2.5)
         time.sleep(3)
@@ -171,13 +170,10 @@ class hand_gesture_browser():
         import psutil
         b.browser.quit()
         PROCNAME = "python3"
-
         for proc in psutil.process_iter():
-
             print(proc.name())
             # check whether the process name matches
             if proc.name() == PROCNAME:
-
                 proc.kill()
         exit()
 
