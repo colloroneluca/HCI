@@ -2,11 +2,5 @@
     {
         "id": 0,
         "username": "Unknown"
-    },
-    {
-        "id": 1,
-        "username": "Luca",
-        "dominant": "Right",
-        "tabs": []
     }
 ]

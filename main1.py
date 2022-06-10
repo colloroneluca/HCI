@@ -231,7 +231,7 @@ class hand_gesture_browser():
                 lmList, current_hand, counter = detector.findPosition(img)
                 if counter > 50:
                     self.close(b)
-
+                print("screenshot = ",self.screenshot_guard)
                 # 2. Get the tip of the index and middle fingers
                 if len(lmList) != 0:
                     x1, y1 = lmList[8][1:]
